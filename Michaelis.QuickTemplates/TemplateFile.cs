@@ -111,4 +111,13 @@ partial class TemplateFile
     {
         Write(string.Join(", ", meta.OfType<Parameter>().Where(z => z.Availability == ParameterAvailability.Method).Select(z => $"{z.Type} {z.Name}{(z.Initializer != null ? " " + z.Initializer : "")}")));
     }
+
+    private void WriteLineParameters(List<MetaData> meta, LinePostition postition)
+    {
+        foreach (var line in meta.OfType<Line>().Where(z => z.Position == postition))
+        {
+            SkipIndent();
+            WriteLine(line.Text);
+        }
+    }
 }

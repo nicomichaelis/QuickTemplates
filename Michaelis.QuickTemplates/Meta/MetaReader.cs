@@ -18,7 +18,7 @@ class MetaReader
         availableTypes = availableTypesList.ToDictionary(z => z.Name, StringComparer.OrdinalIgnoreCase);
     }
 
-    public MetaReader() : this(typeof(Template), typeof(Import), typeof(Parameter))
+    public MetaReader() : this(typeof(Template), typeof(Import), typeof(Parameter), typeof(Line))
     {
     }
 

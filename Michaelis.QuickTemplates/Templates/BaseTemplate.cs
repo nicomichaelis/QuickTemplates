@@ -1,7 +1,8 @@
+#nullable disable
 
 namespace Michaelis.QuickTemplates
 {
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Michaelis.QuickTemplates", "0.0.0.0")] // 0.0.0+2d233cbacd
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Michaelis.QuickTemplates", "0.0.0.0")] // 0.0.0+2703e91f70
     internal partial class BaseTemplate : BaseTemplateBase
     {
     }

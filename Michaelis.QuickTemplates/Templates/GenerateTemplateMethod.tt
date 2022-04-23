@@ -5,6 +5,7 @@
 <#@ import namespace="Michaelis.QuickTemplates.Meta" #>
 <#@ parameter name="directives" type="List<TemplateDirective>" availability="method" required="true" #>
 <#@ parameter name="template" type="Template" availability="method" required="true" #>
+<#@ line position="PreNamespace" text="#nullable disable" #>
 <#
             foreach (var dir in directives.Where(z => z.Mode == DirectiveMode.ClassCode))
             {

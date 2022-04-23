@@ -133,6 +133,14 @@ class Generator
                     names.Add(param.Name);
                 }
             }
+
+            foreach (var line in meta.OfType<Line>())
+            {
+                if (string.IsNullOrEmpty(line.Text) || line.Position == LinePostition.Undefined)
+                {
+                    Diagnostics.Add(new(DiagnosticSeverity.Error, DiagnosticMessages.IncorrectParameter(line.Directive.Location)));
+                }
+            }
         }
         return !Diagnostics.ContainsErrors;
     }

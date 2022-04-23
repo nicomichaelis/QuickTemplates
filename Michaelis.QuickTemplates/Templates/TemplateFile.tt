@@ -8,9 +8,12 @@
 <#@ parameter name="Modifier" type="TemplateVisibility" availability="class" required="true" #>
 <#@ parameter name="ClassName" type="string" availability="class" required="true" #>
 <#@ parameter name="Meta" type="List<MetaData>" availability="class" required="true" #>
+<#@ line position="PreNamespace" text="#nullable disable" #>
 <#
             bool any = false;
             var template = Meta.OfType<Template>().Last();
+            WriteLineParameters(Meta, LinePostition.Head);
+
             foreach (var import in Meta.OfType<Import>().OrderBy(z => z.Namespace, NaturalSortComparer.Default))
             {
                 any = true;
@@ -22,12 +25,17 @@
                 SkipIndent();
                 FinishLineInfo(template, FinishLineInfoMode.Default);
             }
+
+            WriteLineParameters(Meta, LinePostition.PreNamespace);
 #>
 namespace <#= Namespace #>
-{<#         if (!template.OmitGeneratedAttribute) { #>
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("<#= ThisAssembly.AssemblyTitle #>", "<#= ThisAssembly.AssemblyVersion #>")] // <#= ThisAssembly.AssemblyInformationalVersion #><#
-            } #>
-    <#= Modifier != TemplateVisibility.none ? Modifier.ToString() + " " : "" #>partial class <#= template.Name ?? ClassName #> : <#= InheritsFrom(template) #>
+{
+<#          if (!template.OmitGeneratedAttribute) { 
+#>    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("<#= ThisAssembly.AssemblyTitle #>", "<#= ThisAssembly.AssemblyVersion #>")] // <#= ThisAssembly.AssemblyInformationalVersion #>
+<#
+            }
+            WriteLineParameters(Meta, LinePostition.PreClass);
+#>    <#= Modifier != TemplateVisibility.none ? Modifier.ToString() + " " : "" #>partial class <#= template.Name ?? ClassName #> : <#= InheritsFrom(template) #>
     {
 <#          PushIndent("        ");
             PrintMemberParameters(Meta);
@@ -228,3 +236,4 @@ namespace <#= Namespace #>
 <#          }
 #>
 }
+<#       WriteLineParameters(Meta, LinePostition.Bottom); #>
