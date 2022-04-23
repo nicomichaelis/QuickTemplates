@@ -12,11 +12,12 @@ class Generator
     private List<FileInfo> Inputs;
     private Dictionary<FileInfo, List<TemplateDirective>> Directives;
     private Dictionary<FileInfo, List<MetaData>> Meta;
-    private DiagnosticsCollection Diagnostics = new();
+    private DiagnosticsCollection Diagnostics;
 
-    public Generator(List<FileInfo> inputs)
+    public Generator(List<FileInfo> inputs, DiagnosticsCollection diagnostics)
     {
-        Inputs = inputs;
+        Inputs = inputs ?? throw new ArgumentNullException(nameof(inputs));
+        Diagnostics = diagnostics ?? throw new ArgumentNullException(nameof(diagnostics));
     }
 
     public async Task<bool> ReadDirectives(System.Threading.CancellationToken cancel)
@@ -33,17 +34,7 @@ class Generator
             Directives.Add(task.file, task.directives);
         }
 
-        WriteDiagnostics();
         return !Diagnostics.ContainsErrors;
-    }
-
-    private void WriteDiagnostics()
-    {
-        foreach (var diagnostic in Diagnostics.Diagnostics.OrderBy(z => z.Message.Location.SourceName, NaturalSortComparer.Default).ThenBy(z => z.Message.Location.Line).ThenBy(z => z.Message.Location.Col))
-        {
-            Console.Error.WriteLine($"{diagnostic.Message.Location.SourceName}({diagnostic.Message.Location.Line},{diagnostic.Message.Location.Col}): {diagnostic.Severity}: {diagnostic.Message.Text}");
-        }
-        Diagnostics.Clear();
     }
 
     private (FileInfo file, List<TemplateDirective> directives) ReadFileDirectives(FileInfo inFile)
@@ -71,7 +62,6 @@ class Generator
             Meta.Add(task.Result.file, task.Result.metadata);
         }
 
-        WriteDiagnostics();
         return !Diagnostics.ContainsErrors;
     }
 
@@ -145,19 +135,12 @@ class Generator
         return !Diagnostics.ContainsErrors;
     }
 
-    internal async Task GenerateOutput(DirectoryInfo inputDir, DirectoryInfo outputDir)
+    internal async Task GenerateOutput(DirectoryInfo inputDir, DirectoryInfo outputDir, Func<string, TextWriter> generationAction)
     {
-        try
-        {
-            await Task.WhenAll(Inputs.Select(input => GenerateOutputForInput(inputDir, outputDir, input)));
-        }
-        finally
-        {
-            WriteDiagnostics();
-        }
+        await Task.WhenAll(Inputs.Select(input => GenerateOutputForInput(inputDir, outputDir, input, generationAction)));
     }
 
-    private async Task GenerateOutputForInput(DirectoryInfo inputDir, DirectoryInfo outputDir, FileInfo input)
+    private async Task GenerateOutputForInput(DirectoryInfo inputDir, DirectoryInfo outputDir, FileInfo input, Func<string, TextWriter> generationAction)
     {
         string relDir = Path.Combine(Path.GetRelativePath(Path.GetDirectoryName(input.FullName), inputDir.FullName), input.Name);
         string outFilename = Path.Combine(outputDir.FullName, Path.ChangeExtension(relDir, ".cs"));
@@ -168,25 +151,18 @@ class Generator
         var directives = Directives[input];
         var meta = Meta[input];
         var templateDirective = meta.OfType<Template>().Last();
-        using (ChangeStream cs = new ChangeStream(File.Open(outFilename, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.Read), false))
-        {
-            using (TextWriter wr = new StreamWriter(cs))
-            {
-                TemplateFile tf = new TemplateFile()
-                {
-                    Context = new BaseTemplateContext() { Writer = wr, FormatProvider = System.Globalization.CultureInfo.InvariantCulture },
-                    Namespace = templateDirective.Namespace,
-                    Modifier = templateDirective.Visibility,
-                    ClassName = Path.GetFileNameWithoutExtension(input.Name),
-                    Meta = meta,
-                };
 
-                tf.TransformText(directives);
-            }
-            if (cs.Updated)
-            {
-                Diagnostics.Add(new(DiagnosticSeverity.Info, DiagnosticMessages.FileUpdated(outFilename)));
-            }
-        }
+        using TextWriter wr = generationAction(outFilename);
+
+        TemplateFile tf = new TemplateFile()
+        {
+            Context = new BaseTemplateContext() { Writer = wr, FormatProvider = System.Globalization.CultureInfo.InvariantCulture },
+            Namespace = templateDirective.Namespace,
+            Modifier = templateDirective.Visibility,
+            ClassName = Path.GetFileNameWithoutExtension(input.Name),
+            Meta = meta,
+        };
+
+        tf.TransformText(directives);
     }
 }

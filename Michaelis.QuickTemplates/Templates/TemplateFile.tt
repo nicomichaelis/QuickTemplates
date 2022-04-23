@@ -31,7 +31,7 @@
 namespace <#= Namespace #>
 {
 <#          if (!template.OmitGeneratedAttribute) { 
-#>    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("<#= ThisAssembly.AssemblyTitle #>", "<#= ThisAssembly.AssemblyVersion #>")] // <#= ThisAssembly.AssemblyInformationalVersion #>
+#>    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("<#= ThisAssembly.AssemblyTitle #>", "<#= ThisAssembly.AssemblyVersion #>")]
 <#
             }
             WriteLineParameters(Meta, LinePostition.PreClass);

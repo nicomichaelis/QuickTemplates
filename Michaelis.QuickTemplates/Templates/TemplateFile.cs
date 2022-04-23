@@ -11,7 +11,7 @@ using System.Linq;
 
 namespace Michaelis.QuickTemplates
 {
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Michaelis.QuickTemplates", "0.0.0.0")] // 0.0.0+2703e91f70
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Michaelis.QuickTemplates", "0.0.0.0")]
     internal partial class TemplateFile : BaseTemplate
     {
         private string _priv_Namespace { get; set; }
@@ -97,11 +97,7 @@ namespace Michaelis.QuickTemplates
 #line 34 "D:\workspace\QuickTemplates\Michaelis.QuickTemplates\templates\TemplateFile.tt"
                                                                                                      $"{(ThisAssembly.AssemblyVersion)}");
 #line hidden
-            WriteNoBreakIndent("\")] // ");
-            WriteFormated(
-#line 34 "D:\workspace\QuickTemplates\Michaelis.QuickTemplates\templates\TemplateFile.tt"
-                                                                                                                                               $"{(ThisAssembly.AssemblyInformationalVersion)}");
-#line hidden
+            WriteNoBreakIndent("\")]");
             WriteLine();
 #line 36 "D:\workspace\QuickTemplates\Michaelis.QuickTemplates\templates\TemplateFile.tt"
             }
