@@ -9,8 +9,19 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceFolder}/Michaelis.QuickTemplates/bin/Debug/net6.0/Michaelis.QuickTemplates.dll",
-            "args": ["--input", "${workspaceFolder}/Michaelis.QuickTemplates/templates", "--output", "${workspaceFolder}/Michaelis.QuickTemplates/Templates"],
+            "program": "${workspaceFolder}/Michaelis.QuickTemplates/bin/Debug/net6.0/qtg.dll",
+            "args": ["--input", "${workspaceFolder}/Michaelis.QuickTemplates/Templates", "--output", "${workspaceFolder}/Michaelis.QuickTemplates/Templates"],
+            "cwd": "${workspaceFolder}/Michaelis.QuickTemplates",
+            "console": "internalConsole",
+            "stopAtEntry": false
+        },
+        {
+            "name": "Generate ./CsTemplates",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/Michaelis.QuickTemplates/bin/Debug/net6.0/qtg.dll",
+            "args": ["--input", "${workspaceFolder}/Michaelis.QuickTemplates/CsTemplates", "--output", "${workspaceFolder}/Michaelis.QuickTemplates/CsTemplates"],
             "cwd": "${workspaceFolder}/Michaelis.QuickTemplates",
             "console": "internalConsole",
             "stopAtEntry": false
@@ -20,8 +31,8 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceFolder}/Michaelis.QuickTemplates/bin/Debug/net6.0/Michaelis.QuickTemplates.dll",
-            "args": ["--input", "${workspaceFolder}/Michaelis.QuickTemplates/templates", "--output", "${workspaceFolder}/temp/Templates"],
+            "program": "${workspaceFolder}/Michaelis.QuickTemplates/bin/Debug/net6.0/qtg.dll",
+            "args": ["--input", "${workspaceFolder}/Michaelis.QuickTemplates/Templates", "--output", "${workspaceFolder}/temp/Templates"],
             "cwd": "${workspaceFolder}/Michaelis.QuickTemplates",
             "console": "internalConsole",
             "stopAtEntry": false

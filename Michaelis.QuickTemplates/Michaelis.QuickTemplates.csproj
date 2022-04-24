@@ -3,6 +3,9 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net6.0</TargetFramework>
+    <AssemblyName>qtg</AssemblyName>
+    <AssemblyTitle>Michaelis.QuickTemplates</AssemblyTitle>
+    <RootNamespace>Michaelis.QuickTemplates</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
