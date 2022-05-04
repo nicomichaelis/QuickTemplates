@@ -67,20 +67,8 @@ class Generator
 
     private (FileInfo file, List<MetaData> metadata) ReadFileMeta(FileInfo inFile)
     {
-        var meta = new List<MetaData>();
         MetaReader rdr = new MetaReader();
-        foreach (var dir in Directives[inFile])
-        {
-            if (dir.Mode == DirectiveMode.Meta)
-            {
-                var res = rdr.Decode(dir, Diagnostics);
-                if (res.success)
-                {
-                    meta.Add((MetaData)res.result);
-                    ((MetaData)res.result).Directive = dir;
-                }
-            }
-        }
+        var meta = rdr.DecodeMeta(Directives[inFile], Diagnostics);
         return (inFile, meta);
     }
 

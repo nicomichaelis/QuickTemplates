@@ -22,23 +22,39 @@ class MetaReader
     {
     }
 
-    public (bool success, object result) Decode(TemplateDirective directive, DiagnosticsCollection diagnostics)
+    public List<MetaData> DecodeMeta(List<TemplateDirective> directives, DiagnosticsCollection diagnostics)
+    {
+        List<MetaData> result = new();
+        foreach (var directive in directives)
+        {
+            if (directive.Mode != DirectiveMode.Meta) continue;
+            var meta = Decode(directive, diagnostics);
+            if (null != meta)
+            {
+                result.Add(meta);
+            }
+        }
+        return result;
+    }
+
+    private MetaData Decode(TemplateDirective directive, DiagnosticsCollection diagnostics)
     {
         var text = directive.Data;
         var m = metaRegex.Match(text);
         if (!m.Success)
         {
             diagnostics.Add(new(DiagnosticSeverity.Error, DiagnosticMessages.MalformedDirective(directive.Location)));
-            return (false, null);
+            return null;
         }
         var typeString = m.Groups["type"].Value;
         if (!availableTypes.TryGetValue(typeString, out var type))
         {
             diagnostics.Add(new(DiagnosticSeverity.Error, DiagnosticMessages.DirectiveUnknown(directive.Location, typeString)));
-            return (false, null);
+            return null;
         }
 
-        var obj = System.Activator.CreateInstance(type);
+        MetaData obj = (MetaData)System.Activator.CreateInstance(type);
+        obj.Directive = directive;
         var propertyGroup = m.Groups["property"];
         var stringGroup = m.Groups["string"];
         for (int i = 0; i < propertyGroup.Captures.Count; i++)
@@ -49,7 +65,7 @@ class MetaReader
             if (propInfo == null)
             {
                 diagnostics.Add(new(DiagnosticSeverity.Error, DiagnosticMessages.PropertyUnknown(directive.Location, property)));
-                return (false, null);
+                return null;
             }
             object value;
             try
@@ -59,11 +75,11 @@ class MetaReader
             catch
             {
                 diagnostics.Add(new(DiagnosticSeverity.Error, DiagnosticMessages.MalformedValue(directive.Location, str)));
-                return (false, null);
+                return null;
             }
             propInfo.SetValue(obj, value);
         }
-        return (true, obj);
+        return obj;
     }
 
     private object GetValue(string str, Type type)

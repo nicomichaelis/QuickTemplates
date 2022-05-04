@@ -1,10 +1,10 @@
-#line 5 "D:\workspace\QuickTemplates\Michaelis.QuickTemplates\templates\GenerateTemplateMethod.tt"
+#line 5 "D:\workspace\QuickTemplates\Michaelis.QuickTemplates\Templates\GenerateTemplateMethod.tt"
 using Michaelis.QuickTemplates.Meta;
-#line 2 "D:\workspace\QuickTemplates\Michaelis.QuickTemplates\templates\GenerateTemplateMethod.tt"
+#line 2 "D:\workspace\QuickTemplates\Michaelis.QuickTemplates\Templates\GenerateTemplateMethod.tt"
 using System;
-#line 3 "D:\workspace\QuickTemplates\Michaelis.QuickTemplates\templates\GenerateTemplateMethod.tt"
+#line 3 "D:\workspace\QuickTemplates\Michaelis.QuickTemplates\Templates\GenerateTemplateMethod.tt"
 using System.Collections.Generic;
-#line 4 "D:\workspace\QuickTemplates\Michaelis.QuickTemplates\templates\GenerateTemplateMethod.tt"
+#line 4 "D:\workspace\QuickTemplates\Michaelis.QuickTemplates\Templates\GenerateTemplateMethod.tt"
 using System.Linq;
 #line default
 #nullable disable
@@ -20,7 +20,7 @@ namespace Michaelis.QuickTemplates
             if (null == template) throw new ArgumentNullException(nameof(template));
 
 #line hidden
-#line 10 "D:\workspace\QuickTemplates\Michaelis.QuickTemplates\templates\GenerateTemplateMethod.tt"
+#line 10 "D:\workspace\QuickTemplates\Michaelis.QuickTemplates\Templates\GenerateTemplateMethod.tt"
             foreach (var dir in directives.Where(z => z.Mode == DirectiveMode.ClassCode))
             {
                 ApplyDirective(dir, template, FinishLineInfoMode.Default);
@@ -28,27 +28,27 @@ namespace Michaelis.QuickTemplates
 #line hidden
             WriteLine();
             WriteFormated(
-#line 15 "D:\workspace\QuickTemplates\Michaelis.QuickTemplates\templates\GenerateTemplateMethod.tt"
+#line 15 "D:\workspace\QuickTemplates\Michaelis.QuickTemplates\Templates\GenerateTemplateMethod.tt"
  $"{(template.TransformMethodVisibility != TemplateVisibility.none ? template.TransformMethodVisibility.ToString() + " " : "")}");
 #line hidden
             WriteFormated(
-#line 15 "D:\workspace\QuickTemplates\Michaelis.QuickTemplates\templates\GenerateTemplateMethod.tt"
+#line 15 "D:\workspace\QuickTemplates\Michaelis.QuickTemplates\Templates\GenerateTemplateMethod.tt"
                                                                                                                                 $"{(template.TransformMethodAttribute != null ? template.TransformMethodAttribute + " " : "")}");
 #line hidden
             WriteNoBreakIndent("void ");
             WriteFormated(
-#line 15 "D:\workspace\QuickTemplates\Michaelis.QuickTemplates\templates\GenerateTemplateMethod.tt"
+#line 15 "D:\workspace\QuickTemplates\Michaelis.QuickTemplates\Templates\GenerateTemplateMethod.tt"
                                                                                                                                                                                                                                     $"{(template.TransformMethod)}");
 #line hidden
             WriteNoBreakIndent("(");
-#line 15 "D:\workspace\QuickTemplates\Michaelis.QuickTemplates\templates\GenerateTemplateMethod.tt"
+#line 15 "D:\workspace\QuickTemplates\Michaelis.QuickTemplates\Templates\GenerateTemplateMethod.tt"
                                                                                                                                                                                                                                                                       PrintMethodParameters(Meta);
 #line hidden
             WriteNoBreakIndent(")");
             WriteLine();
             WriteNoBreakIndent("{");
             WriteLine();
-#line 18 "D:\workspace\QuickTemplates\Michaelis.QuickTemplates\templates\GenerateTemplateMethod.tt"
+#line 18 "D:\workspace\QuickTemplates\Michaelis.QuickTemplates\Templates\GenerateTemplateMethod.tt"
             PushIndent("    ");
             foreach (var param in Meta.OfType<Parameter>().Where(z => z.Required))
             {
@@ -61,14 +61,14 @@ namespace Michaelis.QuickTemplates
             }
 #line hidden
             WriteLine();
-#line 30 "D:\workspace\QuickTemplates\Michaelis.QuickTemplates\templates\GenerateTemplateMethod.tt"
+#line 30 "D:\workspace\QuickTemplates\Michaelis.QuickTemplates\Templates\GenerateTemplateMethod.tt"
             if (template.Linepragmas) 
             {
                 SkipIndent();
 #line hidden
             WriteNoBreakIndent("#line hidden");
             WriteLine();
-#line 34 "D:\workspace\QuickTemplates\Michaelis.QuickTemplates\templates\GenerateTemplateMethod.tt"
+#line 34 "D:\workspace\QuickTemplates\Michaelis.QuickTemplates\Templates\GenerateTemplateMethod.tt"
             }
 
             foreach (var dir in directives.Where(z => z.Mode != DirectiveMode.ClassCode))
@@ -79,7 +79,7 @@ namespace Michaelis.QuickTemplates
 #line hidden
             WriteNoBreakIndent("}");
             WriteLine();
-#line 42 "D:\workspace\QuickTemplates\Michaelis.QuickTemplates\templates\GenerateTemplateMethod.tt"
+#line 42 "D:\workspace\QuickTemplates\Michaelis.QuickTemplates\Templates\GenerateTemplateMethod.tt"
    SkipIndent();
 #line hidden
             WriteNoBreakIndent("#line default");

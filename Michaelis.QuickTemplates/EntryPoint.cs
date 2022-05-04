@@ -10,10 +10,10 @@ class EntryPoint
 {
     static async Task<int> Main(string[] args)
     {
-        return await Main(args, null);
+        return await Run(args, null);
     }
 
-    static async Task<int> Main(string[] args, IConsole console)
+    static async Task<int> Run(string[] args, IConsole console)
     {
         var inputOption = new Option<DirectoryInfo>(
                 "--input",
@@ -34,11 +34,14 @@ class EntryPoint
         outputOption.AddAlias("-o");
 
         var recursiveOption = new Option<bool>(
-                "--recurse",                
-                "recurse input directory directory")
-        {
-            IsRequired = true
-        };
+                "--recurse",
+                "recurse input directory directory");
+        recursiveOption.AddAlias("-r");
+
+        var prototypeOption = new Option<bool>(
+                "--prototype"
+                )
+        { IsHidden = true };
         recursiveOption.AddAlias("-r");
 
         var rootCommand = new RootCommand
@@ -46,14 +49,17 @@ class EntryPoint
             inputOption,
             outputOption,
             recursiveOption,
+            prototypeOption,
         };
-        rootCommand.Description = "Quick Template Generator" + Environment.NewLine + "For details visit https://github.com/nicomichaelis/QuickTemplates/";
+        rootCommand.Description = "Quick Template Generator"
+            + Environment.NewLine + "Tool for generating runtime text templates"
+            + Environment.NewLine + "For details visit https://github.com/nicomichaelis/QuickTemplates/";
 
-        rootCommand.SetHandler(async (DirectoryInfo input, DirectoryInfo output, bool recurse, InvocationContext ctx) =>
+        rootCommand.SetHandler(async (DirectoryInfo input, DirectoryInfo output, bool recurse, bool prototype, InvocationContext ctx) =>
             {
                 Program handler = new(ctx.Console);
-                ctx.ExitCode = await handler.Run(input, output, recurse, ctx.GetCancellationToken());
-            }, inputOption, outputOption);
+                ctx.ExitCode = await handler.Run(input, output, recurse, prototype, ctx.GetCancellationToken());
+            }, inputOption, outputOption, recursiveOption, prototypeOption);
 
         return await rootCommand.InvokeAsync(args, console);
     }

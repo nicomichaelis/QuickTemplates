@@ -7,7 +7,7 @@ namespace Michaelis.QuickTemplates
     {
     }
 
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Michaelis.QuickTemplates", "0.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("qtg", "0.0.0.0")]
     internal partial class BaseTemplateBase
     {
         public BaseTemplateContext Context
@@ -183,7 +183,7 @@ namespace Michaelis.QuickTemplates
 #line default
     }
 
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Michaelis.QuickTemplates", "0.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("qtg", "0.0.0.0")]
     internal partial class BaseTemplateContext
     {
         public global::System.IO.TextWriter Writer { get; set; }

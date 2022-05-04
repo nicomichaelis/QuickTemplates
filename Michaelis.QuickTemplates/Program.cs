@@ -17,15 +17,23 @@ class Program
         Console = console;
     }
 
-    public async Task<int> Run(DirectoryInfo input, DirectoryInfo output, bool recurse, CancellationToken cancel)
+    public async Task<int> Run(DirectoryInfo input, DirectoryInfo output, bool recurse, bool prototype, CancellationToken cancel)
     {
         var searchOptions = recurse ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
         var inputs = input.EnumerateFiles("*.tt", searchOptions).OrderBy(z => z.Name, NaturalSortComparer.Default).ToList();
 
         DiagnosticsCollection diagnostics = new();
-        Generator gen = new Generator(inputs, diagnostics);
         try
         {
+            if (prototype)
+            {
+                var writer = new FileWriter();
+                var inputReader = new FileInputReader(inputs);
+                TemplateGenerator generator = new(inputReader, writer, diagnostics);
+                return await generator.Run(cancel);
+            }
+
+            Generator gen = new Generator(inputs, diagnostics);
             if (!await gen.ReadDirectives(cancel))
             {
                 return -1;
@@ -78,7 +86,14 @@ class Program
     {
         foreach (var diagnostic in diagnostics.Diagnostics.OrderBy(z => z.Message.Location.SourceName, NaturalSortComparer.Default).ThenBy(z => z.Message.Location.Line).ThenBy(z => z.Message.Location.Col))
         {
-            Console.Error.WriteLine($"{diagnostic.Message.Location.SourceName}({diagnostic.Message.Location.Line},{diagnostic.Message.Location.Col}): {diagnostic.Severity}: {diagnostic.Message.Text}");
+            if (diagnostic.Message.Location != null)
+            {
+                Console.Error.WriteLine($"{diagnostic.Message.Location.SourceName}({diagnostic.Message.Location.Line},{diagnostic.Message.Location.Col}): {diagnostic.Severity}: {diagnostic.Message.Text}");
+            }
+            else
+            {
+                Console.Error.WriteLine($"{diagnostic.Severity}: {diagnostic.Message.Text}");
+            }
         }
     }
 
