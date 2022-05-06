@@ -5,7 +5,7 @@ namespace Michaelis.QuickTemplates;
 
 public class DiagnosticsCollection
 {
-    private object _locker = new();
+    object _locker = new();
     List<Diagnostic> _diagnostics = new();
 
     public void Add(Diagnostic diagnostic)

@@ -1,4 +1,5 @@
 namespace Michaelis.QuickTemplates;
 
-internal interface IResultWriter{
+internal interface IResultWriter
+{
 }

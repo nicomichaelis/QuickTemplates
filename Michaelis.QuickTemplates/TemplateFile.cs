@@ -8,7 +8,7 @@ namespace Michaelis.QuickTemplates;
 
 partial class TemplateFile
 {
-    private void PrintMemberParameters(List<MetaData> meta)
+    void PrintMemberParameters(List<MetaData> meta)
     {
         var memberParameters = meta.OfType<Parameter>().Where(z => z.Availability == ParameterAvailability.Class).ToList();
         if (memberParameters.Any())
@@ -49,18 +49,18 @@ partial class TemplateFile
         }
     }
 
-    private bool IsInherited(Template template)
+    bool IsInherited(Template template)
     {
         return !string.IsNullOrEmpty(template.Inherits);
     }
 
-    private string InheritsFrom(Template template)
+    string InheritsFrom(Template template)
     {
         var inheritedBase = template.Inherits;
         return inheritedBase ?? (ClassName + "Base");
     }
 
-    private void ApplyDirective(TemplateDirective dir, Template template, FinishLineInfoMode mode)
+    void ApplyDirective(TemplateDirective dir, Template template, FinishLineInfoMode mode)
     {
         switch (dir.Mode)
         {
@@ -107,12 +107,12 @@ partial class TemplateFile
         }
     }
 
-    private void PrintMethodParameters(List<MetaData> meta)
+    void PrintMethodParameters(List<MetaData> meta)
     {
         Write(string.Join(", ", meta.OfType<Parameter>().Where(z => z.Availability == ParameterAvailability.Method).Select(z => $"{z.Type} {z.Name}{(z.Initializer != null ? " " + z.Initializer : "")}")));
     }
 
-    private void WriteLineParameters(List<MetaData> meta, LinePostition postition)
+    void WriteLineParameters(List<MetaData> meta, LinePostition postition)
     {
         foreach (var line in meta.OfType<Line>().Where(z => z.Position == postition))
         {

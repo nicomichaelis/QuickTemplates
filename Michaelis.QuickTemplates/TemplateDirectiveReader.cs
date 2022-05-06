@@ -7,7 +7,7 @@ namespace Michaelis.QuickTemplates;
 
 class TemplateDirectiveReader
 {
-    static readonly Regex directive_pattern_regex = new Regex(@"\<#((?<META>@\s*(?<META_DATA>.*?)\s*#\>)|(?<INSERT>\=\s*(?<INSERT_EXPR>.*?)\s*#\>)|(?<CODE>(?<CODE_CLASS>\+)?\s*(?<CODE_TEXT>(?![#@])(\r|\n|.)*?)\s*#\>))", RegexOptions.Multiline | RegexOptions.ExplicitCapture | RegexOptions.Compiled);
+    static readonly Regex _directive_pattern_regex = new Regex(@"\<#((?<META>@\s*(?<META_DATA>.*?)\s*#\>)|(?<INSERT>\=\s*(?<INSERT_EXPR>.*?)\s*#\>)|(?<CODE>(?<CODE_CLASS>\+)?\s*(?<CODE_TEXT>(?![#@])(\r|\n|.)*?)\s*#\>))", RegexOptions.Multiline | RegexOptions.ExplicitCapture | RegexOptions.Compiled);
 
     string TemplateText { get; }
     string SourceFile { get; }
@@ -23,7 +23,7 @@ class TemplateDirectiveReader
         var directives = new List<TemplateDirective>();
 
         ReadOnlySpan<char> textSpan = TemplateText.AsSpan();
-        var m = directive_pattern_regex.Match(TemplateText);
+        var m = _directive_pattern_regex.Match(TemplateText);
         var otlp = new OffsetToLinePosition(TemplateText, SourceFile);
         int offset = 0;
         while (m.Success && m.Groups["META"].Success && m.Index == offset)
@@ -46,7 +46,7 @@ class TemplateDirectiveReader
         return directives;
     }
 
-    private TemplateDirective ReadDirective(Match m, OffsetToLinePosition otlp)
+    TemplateDirective ReadDirective(Match m, OffsetToLinePosition otlp)
     {
         if (!m.Success) throw new ArgumentOutOfRangeException(nameof(m));
         if (m.Groups["META"].Success)
@@ -65,7 +65,7 @@ class TemplateDirectiveReader
             throw new NotImplementedException();
     }
 
-    private void ProcessSimpleText(int offset, int end, ReadOnlySpan<char> templateText, OffsetToLinePosition otlp, List<TemplateDirective> directives)
+    void ProcessSimpleText(int offset, int end, ReadOnlySpan<char> templateText, OffsetToLinePosition otlp, List<TemplateDirective> directives)
     {
         int textStartOffset = offset;
         while (offset < end)

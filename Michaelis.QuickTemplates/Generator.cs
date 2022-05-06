@@ -1,7 +1,7 @@
 using System;
-using System.Linq;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using Michaelis.QuickTemplates.Meta;
 
@@ -9,21 +9,21 @@ namespace Michaelis.QuickTemplates;
 
 class Generator
 {
-    private List<FileInfo> Inputs;
-    private Dictionary<FileInfo, List<TemplateDirective>> Directives;
-    private Dictionary<FileInfo, List<MetaData>> Meta;
-    private DiagnosticsCollection Diagnostics;
+    readonly List<FileInfo> _inputs;
+    Dictionary<FileInfo, List<TemplateDirective>> _directives;
+    Dictionary<FileInfo, List<MetaData>> _meta;
+    DiagnosticsCollection Diagnostics { get; }
 
     public Generator(List<FileInfo> inputs, DiagnosticsCollection diagnostics)
     {
-        Inputs = inputs ?? throw new ArgumentNullException(nameof(inputs));
+        _inputs = inputs ?? throw new ArgumentNullException(nameof(inputs));
         Diagnostics = diagnostics ?? throw new ArgumentNullException(nameof(diagnostics));
     }
 
     public async Task<bool> ReadDirectives(System.Threading.CancellationToken cancel)
     {
-        Directives = new Dictionary<FileInfo, List<TemplateDirective>>();
-        var tasks = Inputs.Select(input => Task.Factory.StartNew(() =>
+        _directives = new Dictionary<FileInfo, List<TemplateDirective>>();
+        var tasks = _inputs.Select(input => Task.Factory.StartNew(() =>
             {
                 cancel.ThrowIfCancellationRequested();
                 return ReadFileDirectives(input);
@@ -31,13 +31,13 @@ class Generator
 
         foreach (var task in await Task.WhenAll(tasks))
         {
-            Directives.Add(task.file, task.directives);
+            _directives.Add(task.file, task.directives);
         }
 
         return !Diagnostics.ContainsErrors;
     }
 
-    private (FileInfo file, List<TemplateDirective> directives) ReadFileDirectives(FileInfo inFile)
+    (FileInfo file, List<TemplateDirective> directives) ReadFileDirectives(FileInfo inFile)
     {
         try
         {
@@ -54,29 +54,29 @@ class Generator
 
     public async Task<bool> ReadMeta()
     {
-        Meta = new Dictionary<FileInfo, List<MetaData>>();
-        var tasks = Inputs.Select(input => Task.Factory.StartNew(() => ReadFileMeta(input))).ToList();
+        _meta = new Dictionary<FileInfo, List<MetaData>>();
+        var tasks = _inputs.Select(input => Task.Factory.StartNew(() => ReadFileMeta(input))).ToList();
         await Task.WhenAll(tasks);
         foreach (var task in tasks)
         {
-            Meta.Add(task.Result.file, task.Result.metadata);
+            _meta.Add(task.Result.file, task.Result.metadata);
         }
 
         return !Diagnostics.ContainsErrors;
     }
 
-    private (FileInfo file, List<MetaData> metadata) ReadFileMeta(FileInfo inFile)
+    (FileInfo file, List<MetaData> metadata) ReadFileMeta(FileInfo inFile)
     {
         MetaReader rdr = new MetaReader();
-        var meta = rdr.DecodeMeta(Directives[inFile], Diagnostics);
+        var meta = rdr.DecodeMeta(_directives[inFile], Diagnostics);
         return (inFile, meta);
     }
 
     public bool VerifyMeta()
     {
-        foreach (var input in Inputs)
+        foreach (var input in _inputs)
         {
-            var meta = Meta[input];
+            var meta = _meta[input];
             var templateDirective = meta.OfType<Template>().LastOrDefault();
             if (templateDirective == null)
             {
@@ -125,10 +125,10 @@ class Generator
 
     internal async Task GenerateOutput(DirectoryInfo inputDir, DirectoryInfo outputDir, Func<string, TextWriter> generationAction)
     {
-        await Task.WhenAll(Inputs.Select(input => GenerateOutputForInput(inputDir, outputDir, input, generationAction)));
+        await Task.WhenAll(_inputs.Select(input => GenerateOutputForInput(inputDir, outputDir, input, generationAction)));
     }
 
-    private async Task GenerateOutputForInput(DirectoryInfo inputDir, DirectoryInfo outputDir, FileInfo input, Func<string, TextWriter> generationAction)
+    async Task GenerateOutputForInput(DirectoryInfo inputDir, DirectoryInfo outputDir, FileInfo input, Func<string, TextWriter> generationAction)
     {
         string relDir = Path.Combine(Path.GetRelativePath(Path.GetDirectoryName(input.FullName), inputDir.FullName), input.Name);
         string outFilename = Path.Combine(outputDir.FullName, Path.ChangeExtension(relDir, ".cs"));
@@ -136,8 +136,8 @@ class Generator
 
         await Task.Yield();
 
-        var directives = Directives[input];
-        var meta = Meta[input];
+        var directives = _directives[input];
+        var meta = _meta[input];
         var templateDirective = meta.OfType<Template>().Last();
 
         using TextWriter wr = generationAction(outFilename);

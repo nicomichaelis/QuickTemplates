@@ -7,15 +7,13 @@ public class ChangeStream : Stream
 {
     enum ChangeModes { Damaged, Compare, WriteThrough }
 
-    bool Disposed { get; set; }
-
-    ChangeModes ChangeMode { get; set; }
-
-    byte[] m_Buffer;
-    int m_BufferFill;
-    int m_BufferPos;
-    Stream m_BaseStream;
-    bool m_LeaveOpen;
+    bool _disposed;
+    ChangeModes _changeMode;
+    byte[] _buffer;
+    int _bufferFill;
+    int _bufferPos;
+    Stream BaseStream { get; set; }
+    readonly bool _leaveOpen;
 
     public ChangeStream(Stream inoutStream, bool leaveOpen) : this(inoutStream, 4096, leaveOpen)
     {
@@ -23,14 +21,14 @@ public class ChangeStream : Stream
 
     public ChangeStream(Stream inoutStream, int bufferSize, bool leaveOpen)
     {
-        m_LeaveOpen = leaveOpen;
+        _leaveOpen = leaveOpen;
         if (inoutStream == null) throw new ArgumentNullException(nameof(inoutStream));
         if (!(inoutStream.CanRead && inoutStream.CanWrite && inoutStream.CanSeek))
             throw new ArgumentOutOfRangeException(nameof(inoutStream), $"Parameter {nameof(inoutStream)} must support Read, Write and Seek.");
         if (bufferSize < 1) throw new ArgumentOutOfRangeException(nameof(bufferSize));
-        m_BaseStream = inoutStream;
-        ChangeMode = ChangeModes.Compare;
-        m_Buffer = new byte[bufferSize];
+        BaseStream = inoutStream;
+        _changeMode = ChangeModes.Compare;
+        _buffer = new byte[bufferSize];
     }
 
     public bool Updated { get; protected set; } = false;
@@ -39,7 +37,7 @@ public class ChangeStream : Stream
 
     public override bool CanSeek => false;
 
-    public override bool CanWrite => !Disposed;
+    public override bool CanWrite => !_disposed;
 
     public override long Length => Position;
 
@@ -48,7 +46,7 @@ public class ChangeStream : Stream
         get
         {
             EnsureAllGood();
-            return m_BaseStream.Position - (m_BufferFill - m_BufferPos);
+            return BaseStream.Position - (_bufferFill - _bufferPos);
         }
         set => throw new NotSupportedException();
     }
@@ -71,7 +69,7 @@ public class ChangeStream : Stream
     public override void Flush()
     {
         EnsureAllGood();
-        if (m_BaseStream != null)
+        if (BaseStream != null)
         {
             SeekReset();
         }
@@ -84,71 +82,71 @@ public class ChangeStream : Stream
         if (offset < 0) throw new ArgumentOutOfRangeException(nameof(offset));
         try
         {
-            while (ChangeMode == ChangeModes.Compare && count > 0)
+            while (_changeMode == ChangeModes.Compare && count > 0)
             {
                 if (!(EnsureBuffer() && CompareBuffer(buffer, ref offset, ref count)))
                 {
                     SeekReset();
-                    ChangeMode = ChangeModes.WriteThrough;
-                    m_Buffer = null;
+                    _changeMode = ChangeModes.WriteThrough;
+                    _buffer = null;
                 }
             }
         }
         catch (Exception)
         {
-            ChangeMode = ChangeModes.Damaged;
+            _changeMode = ChangeModes.Damaged;
             throw;
         }
 
-        if (ChangeMode == ChangeModes.WriteThrough)
+        if (_changeMode == ChangeModes.WriteThrough)
         {
             Updated = Updated | count > 0;
-            m_BaseStream.Write(buffer, offset, count);
+            BaseStream.Write(buffer, offset, count);
         }
     }
 
-    private void EnsureAllGood()
+    void EnsureAllGood()
     {
-        if (ChangeMode == ChangeModes.Damaged) throw new InvalidOperationException("There was an exception during a prior write operation. Further operations are not supported.");
-        if (m_BaseStream == null) throw new ObjectDisposedException(nameof(ChangeStream));
+        if (_changeMode == ChangeModes.Damaged) throw new InvalidOperationException("There was an exception during a prior write operation. Further operations are not supported.");
+        if (BaseStream == null) throw new ObjectDisposedException(nameof(ChangeStream));
     }
 
-    private void SeekReset()
+    void SeekReset()
     {
-        int offset = m_BufferFill - m_BufferPos;
+        int offset = _bufferFill - _bufferPos;
         if (offset != 0)
         {
-            m_BaseStream.Seek(-offset, SeekOrigin.Current);
+            BaseStream.Seek(-offset, SeekOrigin.Current);
         }
-        m_BufferFill = 0;
-        m_BufferPos = 0;
+        _bufferFill = 0;
+        _bufferPos = 0;
     }
 
-    private bool EnsureBuffer()
+    bool EnsureBuffer()
     {
-        if (m_BufferFill <= m_BufferPos)
+        if (_bufferFill <= _bufferPos)
         {
-            m_BufferFill = m_BaseStream.Read(m_Buffer, 0, m_Buffer.Length);
-            m_BufferPos = 0;
-            return m_BufferFill > 0;
+            _bufferFill = BaseStream.Read(_buffer, 0, _buffer.Length);
+            _bufferPos = 0;
+            return _bufferFill > 0;
         }
         return true;
     }
 
-    private bool CompareBuffer(byte[] buffer, ref int roffset, ref int rcount)
+    bool CompareBuffer(byte[] buffer, ref int roffset, ref int rcount)
     {
         int offset = roffset;
-        int dCount = Math.Min(rcount, m_BufferFill - m_BufferPos);
+        int dCount = Math.Min(rcount, _bufferFill - _bufferPos);
         bool result = true;
         while (dCount > 0 & result)
         {
-            result = buffer[offset++] == m_Buffer[m_BufferPos++];
+            result = buffer[offset++] == _buffer[_bufferPos++];
             dCount--;
         }
 
         if (!result)
         {
-            m_BufferPos--;
+            _bufferPos--;
             offset--;
         }
 
@@ -160,30 +158,30 @@ public class ChangeStream : Stream
 
     protected override void Dispose(bool disposing)
     {
-        if (disposing && (m_BaseStream != null))
+        if (disposing && (BaseStream != null))
         {
             try
             {
-                if (ChangeMode == ChangeModes.Compare)
+                if (_changeMode == ChangeModes.Compare)
                 {
                     SeekReset();
                 }
 
-                if (ChangeMode != ChangeModes.Damaged && !m_LeaveOpen)
+                if (_changeMode != ChangeModes.Damaged && !_leaveOpen)
                 {
-                    if (m_BaseStream.Position != m_BaseStream.Length) m_BaseStream.SetLength(m_BaseStream.Position);
+                    if (BaseStream.Position != BaseStream.Length) BaseStream.SetLength(BaseStream.Position);
                 }
             }
             finally
             {
                 try
                 {
-                    if (!m_LeaveOpen) m_BaseStream.Dispose();
+                    if (!_leaveOpen) BaseStream.Dispose();
                 }
                 finally
                 {
-                    m_BaseStream = null;
-                    m_Buffer = null;
+                    BaseStream = null;
+                    _buffer = null;
                 }
             }
         }

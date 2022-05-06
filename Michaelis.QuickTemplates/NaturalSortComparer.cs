@@ -47,7 +47,7 @@ public class NaturalSortComparer : Comparer<string>
         return result;
     }
 
-    private (int result, int ix, int iy) CompareInt(ReadOnlySpan<char> sx, int ix, ReadOnlySpan<char> sy, int iy)
+    (int result, int ix, int iy) CompareInt(ReadOnlySpan<char> sx, int ix, ReadOnlySpan<char> sy, int iy)
     {
         // skip trailing zeros
         var inix = sx[ix];

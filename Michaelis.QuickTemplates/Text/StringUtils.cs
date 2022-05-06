@@ -6,14 +6,14 @@ namespace Michaelis.QuickTemplates.Text;
 public static class StringUtils
 {
     [ThreadStatic]
-    private static StringBuilder StringBuilderInstance;
-    private const int MAX_STRING_BUILDER_SIZE = 1024;
+    static StringBuilder _stringBuilderInstance;
+    const int MAX_STRING_BUILDER_SIZE = 1024;
 
     public static StringBuilder AcquireStringBuilder(int capacity = MAX_STRING_BUILDER_SIZE)
     {
         if (capacity <= MAX_STRING_BUILDER_SIZE)
         {
-            StringBuilder sb = StringBuilderInstance;
+            StringBuilder sb = _stringBuilderInstance;
             if (sb != null)
             {
                 return sb;
@@ -27,7 +27,7 @@ public static class StringUtils
         string result = sb.ToString();
         if (sb.Capacity <= MAX_STRING_BUILDER_SIZE)
         {
-            StringBuilderInstance = sb;
+            _stringBuilderInstance = sb;
             sb.Clear();
         }
         return result;

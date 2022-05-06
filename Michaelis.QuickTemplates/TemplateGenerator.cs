@@ -28,7 +28,7 @@ internal class TemplateGenerator
         return 0;
     }
 
-    private async Task<TemplateDirectiveAndMetaData[]> ProcessMeta(CancellationToken cancel)
+    async Task<TemplateDirectiveAndMetaData[]> ProcessMeta(CancellationToken cancel)
     {
         async Task<TemplateDirectiveAndMetaData> GetTemplateDirectiveData(Task<InputData> inputTask)
         {

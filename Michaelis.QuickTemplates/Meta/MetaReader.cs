@@ -1,21 +1,21 @@
-using Michaelis.QuickTemplates.Text;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using Michaelis.QuickTemplates.Text;
 
 namespace Michaelis.QuickTemplates.Meta;
 
 class MetaReader
 {
-    Dictionary<string, Type> availableTypes;
+    readonly Dictionary<string, Type> _availableTypes;
 
-    static readonly Regex metaRegex = new Regex(@"^\s*(?<type>\w+)(\s+(?<property>\w+)\s*=\s*(?<string>@""(?:[^""]|"""")*""|""(?:\\""|[^\\""])*""))*\s*$", RegexOptions.ExplicitCapture);
+    static readonly Regex _metaRegex = new Regex(@"^\s*(?<type>\w+)(\s+(?<property>\w+)\s*=\s*(?<string>@""(?:[^""]|"""")*""|""(?:\\""|[^\\""])*""))*\s*$", RegexOptions.ExplicitCapture);
 
     public MetaReader(params Type[] availableTypesList)
     {
-        availableTypes = availableTypesList.ToDictionary(z => z.Name, StringComparer.OrdinalIgnoreCase);
+        _availableTypes = availableTypesList.ToDictionary(z => z.Name, StringComparer.OrdinalIgnoreCase);
     }
 
     public MetaReader() : this(typeof(Template), typeof(Import), typeof(Parameter), typeof(Line))
@@ -37,17 +37,17 @@ class MetaReader
         return result;
     }
 
-    private MetaData Decode(TemplateDirective directive, DiagnosticsCollection diagnostics)
+    MetaData Decode(TemplateDirective directive, DiagnosticsCollection diagnostics)
     {
         var text = directive.Data;
-        var m = metaRegex.Match(text);
+        var m = _metaRegex.Match(text);
         if (!m.Success)
         {
             diagnostics.Add(new(DiagnosticSeverity.Error, DiagnosticMessages.MalformedDirective(directive.Location)));
             return null;
         }
         var typeString = m.Groups["type"].Value;
-        if (!availableTypes.TryGetValue(typeString, out var type))
+        if (!_availableTypes.TryGetValue(typeString, out var type))
         {
             diagnostics.Add(new(DiagnosticSeverity.Error, DiagnosticMessages.DirectiveUnknown(directive.Location, typeString)));
             return null;
@@ -82,7 +82,7 @@ class MetaReader
         return obj;
     }
 
-    private object GetValue(string str, Type type)
+    object GetValue(string str, Type type)
     {
         if (type == typeof(string))
         {
@@ -107,7 +107,7 @@ class MetaReader
         else throw new NotImplementedException(type.FullName);
     }
 
-    private string DecodeString(string value)
+    string DecodeString(string value)
     {
         var builder = StringUtils.AcquireStringBuilder();
         if (value.StartsWith("@\""))
