@@ -16,7 +16,8 @@ record SimplePropertyNode(string Propertyname, string PropertyType) : ModelNode;
 
 record AttributeNode(string Value) : ModelNode;
 
-record FixedLineNode(string Content) : ModelNode;
+record FixedLineNode(string Content, bool Indented) : ModelNode;
 
 record LineInfoNode(string Filename, int Line) : ModelNode;
-record LineEndInfoNode(FinishLineInfoMode mode) : ModelNode;
+
+record LineEndInfoNode(FinishLineInfoMode Mode) : ModelNode;

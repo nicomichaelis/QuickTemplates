@@ -1,0 +1,8 @@
+<#@ template Namespace="Michaelis.QuickTemplates.CsTemplates" Visibility="internal" Inherits="CsBaseTemplate" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="Michaelis.QuickTemplates.Meta" #>
+<#@ parameter name="selector" type="TemplateSelector" availability="method" required="true" #>
+<#@ parameter name="lineEndInfoNode" type="LineEndInfoNode" availability="method" required="true" #>
+<# SkipIndent(); #>#line <#= lineEndInfoNode.Mode #>

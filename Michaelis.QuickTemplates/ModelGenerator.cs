@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -32,7 +31,7 @@ internal class ModelGenerator
     {
         foreach (var line in meta.OfType<Line>().Where(z => z.Position == LinePostition.Head))
         {
-            yield return new FixedLineNode(line.Text);
+            yield return new FixedLineNode(line.Text, line.Indented);
         }
 
         bool hasLineInfo = false;
@@ -53,7 +52,7 @@ internal class ModelGenerator
 
         foreach (var line in meta.OfType<Line>().Where(z => z.Position == LinePostition.PreNamespace))
         {
-            yield return new FixedLineNode(line.Text);
+            yield return new FixedLineNode(line.Text, line.Indented);
         }
     }
 
@@ -61,8 +60,7 @@ internal class ModelGenerator
     {
         foreach (var line in meta.OfType<Line>().Where(z => z.Position == LinePostition.Bottom))
         {
-            yield return new FixedLineNode(line.Text);
+            yield return new FixedLineNode(line.Text, line.Indented);
         }
    }
-
 }
