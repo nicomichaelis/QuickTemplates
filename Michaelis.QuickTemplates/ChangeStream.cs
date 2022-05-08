@@ -158,8 +158,9 @@ public class ChangeStream : Stream
 
     protected override void Dispose(bool disposing)
     {
-        if (disposing && (BaseStream != null))
+        if (disposing && (BaseStream != null) && !_disposed)
         {
+            _disposed = true;
             try
             {
                 if (_changeMode == ChangeModes.Compare)
