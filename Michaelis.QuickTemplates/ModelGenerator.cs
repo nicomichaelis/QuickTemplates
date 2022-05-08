@@ -12,7 +12,7 @@ internal class ModelGenerator
         var template = meta.OfType<Template>().Last();
 
         var fileHead = BuildFileHead(meta, template).ToList().AsReadOnly();
-        var fileContent = new List<ModelNode>().AsReadOnly();
+        var fileContent = BuildFileContent(meta, template, directives).ToList().AsReadOnly();
         var fileBottom = BuildFileBottom(meta, template).ToList().AsReadOnly();
 
         FileNode node = new FileNode(
@@ -60,4 +60,9 @@ internal class ModelGenerator
             yield return new FixedLineNode(line.Text, line.Indented);
         }
    }
+
+    IEnumerable<ModelNode> BuildFileContent(List<MetaData> meta, Template template, List<TemplateDirective> directives)
+    {
+        yield break;
+    }
 }

@@ -21,20 +21,21 @@ namespace Michaelis.QuickTemplates.CsTemplates
 
 #line hidden
 #line 8 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\CsFileTemplate1.tt"
-    foreach (var headNode in file.Head) {
+    foreach (var headNode in file.Head)
+    {
         ApplyNode(Context, selector, headNode);
     }
 #line hidden
             WriteLine();
             WriteNoBreakIndent("namespace ");
             WriteFormated(
-#line 11 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\CsFileTemplate1.tt"
+#line 13 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\CsFileTemplate1.tt"
            $"{(file.Namespace)}");
 #line hidden
             WriteLine();
             WriteNoBreakIndent("{");
             WriteLine();
-#line 13 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\CsFileTemplate1.tt"
+#line 15 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\CsFileTemplate1.tt"
     PushIndent("    ");
     foreach (var contentNode in file.Content)
     {
@@ -44,10 +45,11 @@ namespace Michaelis.QuickTemplates.CsTemplates
 #line hidden
             WriteNoBreakIndent("}");
             WriteLine();
-#line 21 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\CsFileTemplate1.tt"
-    foreach (var bottomNode in file.Bottom) {
+#line 23 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\CsFileTemplate1.tt"
+    foreach (var bottomNode in file.Bottom)
+    {
         ApplyNode(Context, selector, bottomNode);
-}
+    }
 #line hidden
         }
 #line default

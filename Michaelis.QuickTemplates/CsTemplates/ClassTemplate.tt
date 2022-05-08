@@ -4,21 +4,23 @@
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="Michaelis.QuickTemplates.Meta" #>
 <#@ parameter name="selector" type="TemplateSelector" availability="method" required="true" #>
-<#@ parameter name="file" type="FileNode" availability="method" required="true" #><#
-    foreach (var headNode in file.Head)
+<#@ parameter name="cls" type="ClassNode" availability="method" required="true" #><#
+    foreach (var headNode in cls.Head)
     {
         ApplyNode(Context, selector, headNode);
     }
 #>
-namespace <#= file.Namespace #>;
-<#
-    foreach (var contentNode in file.Content)
+class <#=cls.Classname #>
+{
+<#  PushIndent("    ");
+    foreach (var contentNode in cls.Content)
     {
         ApplyNode(Context, selector, contentNode);
     }
     PopIndent();
-
-    foreach (var bottomNode in file.Bottom)
+#>}
+<#
+    foreach (var bottomNode in cls.Bottom)
     {
         ApplyNode(Context, selector, bottomNode);
     }

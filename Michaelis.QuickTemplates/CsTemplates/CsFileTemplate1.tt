@@ -5,9 +5,11 @@
 <#@ import namespace="Michaelis.QuickTemplates.Meta" #>
 <#@ parameter name="selector" type="TemplateSelector" availability="method" required="true" #>
 <#@ parameter name="file" type="FileNode" availability="method" required="true" #><#
-    foreach (var headNode in file.Head) {
+    foreach (var headNode in file.Head)
+    {
         ApplyNode(Context, selector, headNode);
-    } #>
+    }
+#>
 namespace <#= file.Namespace #>
 {
 <#  PushIndent("    ");
@@ -18,6 +20,8 @@ namespace <#= file.Namespace #>
     PopIndent();
 #>}
 <#
-    foreach (var bottomNode in file.Bottom) {
+    foreach (var bottomNode in file.Bottom)
+    {
         ApplyNode(Context, selector, bottomNode);
-} #>
+    }
+#>

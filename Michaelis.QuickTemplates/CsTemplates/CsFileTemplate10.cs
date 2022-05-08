@@ -21,27 +21,28 @@ namespace Michaelis.QuickTemplates.CsTemplates
 
 #line hidden
 #line 8 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\CsFileTemplate10.tt"
-    foreach (var headNode in file.Head) {
+    foreach (var headNode in file.Head)
+    {
         ApplyNode(Context, selector, headNode);
     }
 #line hidden
             WriteLine();
             WriteNoBreakIndent("namespace ");
             WriteFormated(
-#line 11 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\CsFileTemplate10.tt"
+#line 13 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\CsFileTemplate10.tt"
            $"{(file.Namespace)}");
 #line hidden
             WriteNoBreakIndent(";");
             WriteLine();
-#line 12 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\CsFileTemplate10.tt"
-    PushIndent("    ");
+#line 15 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\CsFileTemplate10.tt"
     foreach (var contentNode in file.Content)
     {
         ApplyNode(Context, selector, contentNode);
     }
     PopIndent();
 
-    foreach (var bottomNode in file.Bottom) {
+    foreach (var bottomNode in file.Bottom)
+    {
         ApplyNode(Context, selector, bottomNode);
     }
 #line hidden
