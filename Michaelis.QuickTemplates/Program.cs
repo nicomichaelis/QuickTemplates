@@ -27,7 +27,7 @@ class Program
             if (prototype)
             {
                 var writer = new FileWriter();
-                var inputReader = new FileInputReader(inputs);
+                var inputReader = new FileInputReader(input, inputs);
                 TemplateGenerator generator = new(inputReader, writer, diagnostics);
                 return await generator.Run(cancel);
             }

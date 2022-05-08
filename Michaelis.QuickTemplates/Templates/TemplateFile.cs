@@ -1,10 +1,10 @@
-#line 5 "D:\workspace\QuickTemplates\Michaelis.QuickTemplates\Templates\TemplateFile.tt"
+#line 5 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\Templates\TemplateFile.tt"
 using Michaelis.QuickTemplates.Meta;
-#line 3 "D:\workspace\QuickTemplates\Michaelis.QuickTemplates\Templates\TemplateFile.tt"
+#line 3 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\Templates\TemplateFile.tt"
 using System;
-#line 2 "D:\workspace\QuickTemplates\Michaelis.QuickTemplates\Templates\TemplateFile.tt"
+#line 2 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\Templates\TemplateFile.tt"
 using System.Collections.Generic;
-#line 4 "D:\workspace\QuickTemplates\Michaelis.QuickTemplates\Templates\TemplateFile.tt"
+#line 4 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\Templates\TemplateFile.tt"
 using System.Linq;
 #line default
 #nullable disable
@@ -56,7 +56,7 @@ namespace Michaelis.QuickTemplates
             if (!_priv_set_Meta) throw new InvalidOperationException($"{nameof(Meta)} was not set");
 
 #line hidden
-#line 13 "D:\workspace\QuickTemplates\Michaelis.QuickTemplates\Templates\TemplateFile.tt"
+#line 13 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\Templates\TemplateFile.tt"
             bool any = false;
             var template = Meta.OfType<Template>().Last();
             WriteLineParameters(Meta, LinePostition.Head);
@@ -78,50 +78,50 @@ namespace Michaelis.QuickTemplates
             WriteLine();
             WriteNoBreakIndent("namespace ");
             WriteFormated(
-#line 31 "D:\workspace\QuickTemplates\Michaelis.QuickTemplates\Templates\TemplateFile.tt"
+#line 31 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\Templates\TemplateFile.tt"
            $"{(Namespace)}");
 #line hidden
             WriteLine();
             WriteNoBreakIndent("{");
             WriteLine();
-#line 33 "D:\workspace\QuickTemplates\Michaelis.QuickTemplates\Templates\TemplateFile.tt"
+#line 33 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\Templates\TemplateFile.tt"
             if (!template.OmitGeneratedAttribute) {
 #line hidden
             WriteNoBreakIndent("    [global::System.CodeDom.Compiler.GeneratedCodeAttribute(\"");
             WriteFormated(
-#line 34 "D:\workspace\QuickTemplates\Michaelis.QuickTemplates\Templates\TemplateFile.tt"
+#line 34 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\Templates\TemplateFile.tt"
                                                                 $"{(ThisAssembly.AssemblyTitle)}");
 #line hidden
             WriteNoBreakIndent("\", \"");
             WriteFormated(
-#line 34 "D:\workspace\QuickTemplates\Michaelis.QuickTemplates\Templates\TemplateFile.tt"
+#line 34 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\Templates\TemplateFile.tt"
                                                                                                      $"{(ThisAssembly.AssemblyVersion)}");
 #line hidden
             WriteNoBreakIndent("\")]");
             WriteLine();
-#line 36 "D:\workspace\QuickTemplates\Michaelis.QuickTemplates\Templates\TemplateFile.tt"
+#line 36 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\Templates\TemplateFile.tt"
             }
             WriteLineParameters(Meta, LinePostition.PreClass);
 #line hidden
             WriteNoBreakIndent("    ");
             WriteFormated(
-#line 38 "D:\workspace\QuickTemplates\Michaelis.QuickTemplates\Templates\TemplateFile.tt"
+#line 38 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\Templates\TemplateFile.tt"
        $"{(Modifier != TemplateVisibility.none ? Modifier.ToString() + " " : "")}");
 #line hidden
             WriteNoBreakIndent("partial class ");
             WriteFormated(
-#line 38 "D:\workspace\QuickTemplates\Michaelis.QuickTemplates\Templates\TemplateFile.tt"
+#line 38 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\Templates\TemplateFile.tt"
                                                                                                 $"{(template.Name ?? ClassName)}");
 #line hidden
             WriteNoBreakIndent(" : ");
             WriteFormated(
-#line 38 "D:\workspace\QuickTemplates\Michaelis.QuickTemplates\Templates\TemplateFile.tt"
+#line 38 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\Templates\TemplateFile.tt"
                                                                                                                                     $"{(InheritsFrom(template))}");
 #line hidden
             WriteLine();
             WriteNoBreakIndent("    {");
             WriteLine();
-#line 40 "D:\workspace\QuickTemplates\Michaelis.QuickTemplates\Templates\TemplateFile.tt"
+#line 40 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\Templates\TemplateFile.tt"
             PushIndent("        ");
             PrintMemberParameters(Meta);
 
@@ -132,34 +132,34 @@ namespace Michaelis.QuickTemplates
 #line hidden
             WriteNoBreakIndent("    }");
             WriteLine();
-#line 49 "D:\workspace\QuickTemplates\Michaelis.QuickTemplates\Templates\TemplateFile.tt"
+#line 49 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\Templates\TemplateFile.tt"
             if (!IsInherited(template)) {
                 if (!template.OmitGeneratedAttribute) {
 #line hidden
             WriteLine();
             WriteNoBreakIndent("    [global::System.CodeDom.Compiler.GeneratedCodeAttribute(\"");
             WriteFormated(
-#line 51 "D:\workspace\QuickTemplates\Michaelis.QuickTemplates\Templates\TemplateFile.tt"
+#line 51 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\Templates\TemplateFile.tt"
                                                               $"{(typeof(TemplateFile).Assembly.GetName().Name)}");
 #line hidden
             WriteNoBreakIndent("\", \"");
             WriteFormated(
-#line 51 "D:\workspace\QuickTemplates\Michaelis.QuickTemplates\Templates\TemplateFile.tt"
+#line 51 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\Templates\TemplateFile.tt"
                                                                                                                      $"{(typeof(TemplateFile).Assembly.GetName().Version)}");
 #line hidden
             WriteNoBreakIndent("\")]");
-#line 52 "D:\workspace\QuickTemplates\Michaelis.QuickTemplates\Templates\TemplateFile.tt"
+#line 52 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\Templates\TemplateFile.tt"
                 }
 #line hidden
             WriteLine();
             WriteNoBreakIndent("    ");
             WriteFormated(
-#line 53 "D:\workspace\QuickTemplates\Michaelis.QuickTemplates\Templates\TemplateFile.tt"
+#line 53 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\Templates\TemplateFile.tt"
      $"{(Modifier != TemplateVisibility.none ? Modifier.ToString() + " " : "")}");
 #line hidden
             WriteNoBreakIndent("partial class ");
             WriteFormated(
-#line 53 "D:\workspace\QuickTemplates\Michaelis.QuickTemplates\Templates\TemplateFile.tt"
+#line 53 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\Templates\TemplateFile.tt"
                                                                                               $"{(ClassName)}");
 #line hidden
             WriteNoBreakIndent("Base");
@@ -168,7 +168,7 @@ namespace Michaelis.QuickTemplates
             WriteLine();
             WriteNoBreakIndent("        public ");
             WriteFormated(
-#line 55 "D:\workspace\QuickTemplates\Michaelis.QuickTemplates\Templates\TemplateFile.tt"
+#line 55 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\Templates\TemplateFile.tt"
                 $"{(ClassName)}");
 #line hidden
             WriteNoBreakIndent("Context Context");
@@ -185,7 +185,7 @@ namespace Michaelis.QuickTemplates
             WriteLine();
             WriteNoBreakIndent("                    _priv_Context = new ");
             WriteFormated(
-#line 61 "D:\workspace\QuickTemplates\Michaelis.QuickTemplates\Templates\TemplateFile.tt"
+#line 61 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\Templates\TemplateFile.tt"
                                          $"{(ClassName)}");
 #line hidden
             WriteNoBreakIndent("Context();");
@@ -209,7 +209,7 @@ namespace Michaelis.QuickTemplates
             WriteLine();
             WriteNoBreakIndent("        private ");
             WriteFormated(
-#line 71 "D:\workspace\QuickTemplates\Michaelis.QuickTemplates\Templates\TemplateFile.tt"
+#line 71 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\Templates\TemplateFile.tt"
                  $"{(ClassName)}");
 #line hidden
             WriteNoBreakIndent("Context _priv_Context;");
@@ -512,24 +512,24 @@ namespace Michaelis.QuickTemplates
             WriteLine();
             WriteNoBreakIndent("    [global::System.CodeDom.Compiler.GeneratedCodeAttribute(\"");
             WriteFormated(
-#line 228 "D:\workspace\QuickTemplates\Michaelis.QuickTemplates\Templates\TemplateFile.tt"
+#line 228 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\Templates\TemplateFile.tt"
                                                               $"{(typeof(TemplateFile).Assembly.GetName().Name)}");
 #line hidden
             WriteNoBreakIndent("\", \"");
             WriteFormated(
-#line 228 "D:\workspace\QuickTemplates\Michaelis.QuickTemplates\Templates\TemplateFile.tt"
+#line 228 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\Templates\TemplateFile.tt"
                                                                                                                      $"{(typeof(TemplateFile).Assembly.GetName().Version)}");
 #line hidden
             WriteNoBreakIndent("\")]");
             WriteLine();
             WriteNoBreakIndent("    ");
             WriteFormated(
-#line 229 "D:\workspace\QuickTemplates\Michaelis.QuickTemplates\Templates\TemplateFile.tt"
+#line 229 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\Templates\TemplateFile.tt"
      $"{(Modifier != TemplateVisibility.none ? Modifier.ToString() + " " : "")}");
 #line hidden
             WriteNoBreakIndent("partial class ");
             WriteFormated(
-#line 229 "D:\workspace\QuickTemplates\Michaelis.QuickTemplates\Templates\TemplateFile.tt"
+#line 229 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\Templates\TemplateFile.tt"
                                                                                               $"{(ClassName)}");
 #line hidden
             WriteNoBreakIndent("Context");
@@ -546,13 +546,13 @@ namespace Michaelis.QuickTemplates
             WriteLine();
             WriteNoBreakIndent("    }");
             WriteLine();
-#line 236 "D:\workspace\QuickTemplates\Michaelis.QuickTemplates\Templates\TemplateFile.tt"
+#line 236 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\Templates\TemplateFile.tt"
             }
 #line hidden
             WriteLine();
             WriteNoBreakIndent("}");
             WriteLine();
-#line 239 "D:\workspace\QuickTemplates\Michaelis.QuickTemplates\Templates\TemplateFile.tt"
+#line 239 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\Templates\TemplateFile.tt"
          WriteLineParameters(Meta, LinePostition.Bottom);
 #line hidden
         }

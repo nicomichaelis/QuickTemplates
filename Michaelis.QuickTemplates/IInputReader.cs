@@ -9,4 +9,4 @@ public interface IInputReader
     IEnumerable<Task<InputData>> GetInputs(CancellationToken cancel);
 }
 
-public record InputData(string SourceName, string SourceText);
+public record InputData(string SourceRelativeLocation, string FullName, string SourceText);

@@ -9,10 +9,12 @@ namespace Michaelis.QuickTemplates;
 
 internal class FileInputReader : IInputReader
 {
+    readonly DirectoryInfo _inputFolder;
     readonly List<FileInfo> _inputFiles;
 
-    public FileInputReader(List<FileInfo> inputs)
+    public FileInputReader(DirectoryInfo inputFolder, List<FileInfo> inputs)
     {
+        _inputFolder = inputFolder ?? throw new ArgumentNullException(nameof(inputFolder));
         _inputFiles = inputs ?? throw new ArgumentNullException(nameof(inputs));
     }
 
@@ -24,7 +26,11 @@ internal class FileInputReader : IInputReader
     async Task<InputData> ReadInput(FileInfo fileinfo, CancellationToken cancel)
     {
         await Task.Yield();
-        return new InputData(fileinfo.FullName, await File.ReadAllTextAsync(fileinfo.FullName, cancel));
+        return new InputData(GetRelName(fileinfo), fileinfo.FullName, await File.ReadAllTextAsync(fileinfo.FullName, cancel));
+    }
 
+    string GetRelName(FileInfo input)
+    {
+        return Path.Combine(Path.GetRelativePath(Path.GetDirectoryName(input.FullName), _inputFolder.FullName), input.Name);
     }
 }

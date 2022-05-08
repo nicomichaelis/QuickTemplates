@@ -20,9 +20,14 @@ internal class TemplateGenerator
     DiagnosticsCollection Diagnostics { get; }
     IResultWriter ResultWriter { get; }
 
+    record TemplateDirectiveAndMetaData(InputData Input, List<TemplateDirective> Directives, List<MetaData> Meta);
+    record ModelData(Dictionary<TemplateDirectiveAndMetaData, FileNode> Model);
+
     public async Task<int> Run(CancellationToken cancel)
     {
         var metaData = await ProcessMeta(cancel);
+        if (Diagnostics.ContainsErrors) return -1;
+        var modelData = await ProcessModel(metaData, cancel);
         if (Diagnostics.ContainsErrors) return -1;
 
         return 0;
@@ -34,14 +39,14 @@ internal class TemplateGenerator
         {
             var input = await inputTask;
             cancel.ThrowIfCancellationRequested();
-            TemplateDirectiveReader directiveReader = new(input.SourceText, input.SourceName);
+            TemplateDirectiveReader directiveReader = new(input);
             var directives = directiveReader.ProcessTemplate();
 
             cancel.ThrowIfCancellationRequested();
             MetaReader metaReader = new();
             var meta = metaReader.DecodeMeta(directives, Diagnostics);
 
-            return new TemplateDirectiveAndMetaData(input.SourceName, directives, meta);
+            return new TemplateDirectiveAndMetaData(input, directives, meta);
         }
 
         try
@@ -55,6 +60,20 @@ internal class TemplateGenerator
         }
     }
 
-    record TemplateDirectiveAndMetaData(string SourceName, List<TemplateDirective> Directives, List<MetaData> Meta);
+    async Task<ModelData> ProcessModel(TemplateDirectiveAndMetaData[] metaData, CancellationToken cancel)
+    {
+        var data = await Task.WhenAll(metaData.Select(z => ProcessModelItem(z, cancel)));
+        return new ModelData(new (data));
+    }
+
+    async Task<KeyValuePair<TemplateDirectiveAndMetaData, FileNode>> ProcessModelItem(TemplateDirectiveAndMetaData data, CancellationToken cancel)
+    {
+        await Task.Yield();
+        cancel.ThrowIfCancellationRequested();
+        ModelGenerator modelGenerator = new();
+        var file = modelGenerator.Generate(data.Input, data.Meta, data.Directives);
+        return new KeyValuePair<TemplateDirectiveAndMetaData, FileNode>(data, file);
+    }
+
 }
 

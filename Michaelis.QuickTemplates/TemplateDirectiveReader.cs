@@ -12,8 +12,15 @@ class TemplateDirectiveReader
     string TemplateText { get; }
     string SourceFile { get; }
 
+    public TemplateDirectiveReader(InputData input)
+    {
+        TemplateText = input.SourceText;
+        SourceFile = input.FullName;
+    }
+
     public TemplateDirectiveReader(string templateText, string sourceFile)
     {
+        // TODO: remove later
         TemplateText = templateText;
         SourceFile = sourceFile;
     }
