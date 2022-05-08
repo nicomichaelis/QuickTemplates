@@ -6,9 +6,9 @@ namespace Michaelis.QuickTemplates;
 
 abstract record ModelNode();
 
-record FileNode(string Filename, string Namespace, List<ModelNode> Head, List<ModelNode> Content, List<ModelNode> Bottom) : ModelNode;
+record FileNode(string Filename, string Namespace, IList<ModelNode> Head, IList<ModelNode> Content, IList<ModelNode> Bottom) : ModelNode;
 
-record ClassNode(string Classname, List<ModelNode> Head, List<ModelNode> Content, List<ModelNode> Bottom) : ModelNode;
+record ClassNode(string Classname, IList<ModelNode> Head, IList<ModelNode> Content, IList<ModelNode> Bottom) : ModelNode;
 
 record UsingNode(string Namespace) : ModelNode;
 

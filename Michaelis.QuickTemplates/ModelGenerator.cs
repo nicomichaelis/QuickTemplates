@@ -11,12 +11,9 @@ internal class ModelGenerator
     {
         var template = meta.OfType<Template>().Last();
 
-        var fileHead = new List<ModelNode>();
-        var fileContent = new List<ModelNode>();
-        var fileBottom = new List<ModelNode>();
-
-        fileHead.AddRange(BuildFileHead(meta, template));
-        fileBottom.AddRange(BuildFileBottom(meta, template));
+        var fileHead = BuildFileHead(meta, template).ToList().AsReadOnly();
+        var fileContent = new List<ModelNode>().AsReadOnly();
+        var fileBottom = BuildFileBottom(meta, template).ToList().AsReadOnly();
 
         FileNode node = new FileNode(
             Path.ChangeExtension(input.SourceRelativeLocation, ".cs"),
