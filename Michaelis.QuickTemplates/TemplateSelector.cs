@@ -32,6 +32,8 @@ class TemplateSelector
             LineInfoNode line => context => new LineInfoTemplate() { Context = context }.TransformText(this, line),
             LineEndInfoNode line => context => new LineEndInfoTemplate() { Context = context }.TransformText(this, line),
             ClassNode cls => context => new ClassTemplate() { Context = context }.TransformText(this, cls),
+            ContextClassCodeNode cccn => context => new ContextClassCodeTemplate() { Context = context }.TransformText(this, cccn),
+            BaseClassCodeNode bccn => context => new BaseClassCodeTemplate() { Context = context }.TransformText(this, bccn),
             _ => throw new NotSupportedException()
         };
     }

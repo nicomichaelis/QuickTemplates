@@ -46,7 +46,7 @@ namespace Michaelis.QuickTemplates
             }
             else if // as coded in unicode, except CR+LF case is above
                 (ch == '\r' // cr
-                | ch == '\n' // LF 
+                | ch == '\n' // LF
                 | ch == '\x000b' // VT
                 | ch == '\x000c' // FF
                 | ch == '\x0085' // NEL

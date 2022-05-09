@@ -22,7 +22,7 @@ internal class TemplateGenerator
     IResultWriter ResultWriter { get; }
 
     record TemplateDirectiveAndMetaData(InputData Input, List<TemplateDirective> Directives, List<MetaData> Meta);
-    record ModelData(Dictionary<TemplateDirectiveAndMetaData, FileNode> Model);
+    record ModelData(Dictionary<TemplateDirectiveAndMetaData, IList<FileNode>> Model);
 
     public async Task<int> Run(CancellationToken cancel)
     {
@@ -67,22 +67,22 @@ internal class TemplateGenerator
     async Task<ModelData> ProcessModel(TemplateDirectiveAndMetaData[] metaData, CancellationToken cancel)
     {
         var data = await Task.WhenAll(metaData.Select(z => ProcessModelItem(z, cancel)));
-        return new ModelData(new(data));
+        return new ModelData(new(data.ToList().AsReadOnly()));
 
-        static async Task<KeyValuePair<TemplateDirectiveAndMetaData, FileNode>> ProcessModelItem(TemplateDirectiveAndMetaData data, CancellationToken cancel)
+        static async Task<KeyValuePair<TemplateDirectiveAndMetaData, IList<FileNode>>> ProcessModelItem(TemplateDirectiveAndMetaData data, CancellationToken cancel)
         {
             await Task.Yield();
             cancel.ThrowIfCancellationRequested();
             ModelGenerator modelGenerator = new();
-            var file = modelGenerator.Generate(data.Input, data.Meta, data.Directives);
-            return new KeyValuePair<TemplateDirectiveAndMetaData, FileNode>(data, file);
+            var files = modelGenerator.Generate(data.Input, data.Meta, data.Directives);
+            return new(data, files.ToList().AsReadOnly());
         }
     }
 
     List<OutputData> GenerateOutputData(ModelData modelData)
     {
         var selector = new TemplateSelector(10); // TODO let the user decide which language version
-        return modelData.Model.Select(z => CreateOutputData(z.Value, selector)).ToList();
+        return modelData.Model.SelectMany(z => z.Value.Select(x => CreateOutputData(x, selector))).ToList();
 
         static OutputData CreateOutputData(FileNode node, TemplateSelector selector)
         {

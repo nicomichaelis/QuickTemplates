@@ -16,7 +16,6 @@ namespace <#= file.Namespace #>;
     {
         ApplyNode(Context, selector, contentNode);
     }
-    PopIndent();
 
     foreach (var bottomNode in file.Bottom)
     {

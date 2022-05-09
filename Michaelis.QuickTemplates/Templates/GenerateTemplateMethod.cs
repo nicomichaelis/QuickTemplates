@@ -29,20 +29,20 @@ namespace Michaelis.QuickTemplates
             WriteLine();
             WriteFormated(
 #line 15 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\Templates\GenerateTemplateMethod.tt"
- $"{(template.TransformMethodVisibility != TemplateVisibility.none ? template.TransformMethodVisibility.ToString() + " " : "")}");
+ $"{(template.TransformMethodVisibility != "" ? template.TransformMethodVisibility + " " : "")}");
 #line hidden
             WriteFormated(
 #line 15 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\Templates\GenerateTemplateMethod.tt"
-                                                                                                                                $"{(template.TransformMethodAttribute != null ? template.TransformMethodAttribute + " " : "")}");
+                                                                                                $"{(template.TransformMethodAttribute != null ? template.TransformMethodAttribute + " " : "")}");
 #line hidden
             WriteNoBreakIndent("void ");
             WriteFormated(
 #line 15 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\Templates\GenerateTemplateMethod.tt"
-                                                                                                                                                                                                                                    $"{(template.TransformMethod)}");
+                                                                                                                                                                                                    $"{(template.TransformMethod)}");
 #line hidden
             WriteNoBreakIndent("(");
 #line 15 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\Templates\GenerateTemplateMethod.tt"
-                                                                                                                                                                                                                                                                      PrintMethodParameters(Meta);
+                                                                                                                                                                                                                                      PrintMethodParameters(Meta);
 #line hidden
             WriteNoBreakIndent(")");
             WriteLine();
@@ -62,7 +62,7 @@ namespace Michaelis.QuickTemplates
 #line hidden
             WriteLine();
 #line 30 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\Templates\GenerateTemplateMethod.tt"
-            if (template.Linepragmas) 
+            if (template.Linepragmas)
             {
                 SkipIndent();
 #line hidden

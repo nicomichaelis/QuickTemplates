@@ -21,3 +21,7 @@ record FixedLineNode(string Content, bool Indented) : ModelNode;
 record LineInfoNode(string Filename, int Line) : ModelNode;
 
 record LineEndInfoNode(FinishLineInfoMode Mode) : ModelNode;
+
+record ContextClassCodeNode() : ModelNode;
+
+record BaseClassCodeNode(string Classname) : ModelNode;

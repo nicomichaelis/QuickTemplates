@@ -5,7 +5,7 @@
 <#@ import namespace="Michaelis.QuickTemplates.Meta" #>
 <#@ parameter name="directives" type="List<TemplateDirective>" availability="method" required="true" #>
 <#@ parameter name="Namespace" type="string" availability="class" required="true" #>
-<#@ parameter name="Modifier" type="TemplateVisibility" availability="class" required="true" #>
+<#@ parameter name="Modifier" type="string" availability="class" required="true" #>
 <#@ parameter name="ClassName" type="string" availability="class" required="true" #>
 <#@ parameter name="Meta" type="List<MetaData>" availability="class" required="true" #>
 <#@ line position="PreNamespace" text="#nullable disable" #>
@@ -30,12 +30,12 @@
 #>
 namespace <#= Namespace #>
 {
-<#          if (!template.OmitGeneratedAttribute) { 
+<#          if (!template.OmitGeneratedAttribute) {
 #>    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("<#= ThisAssembly.AssemblyTitle #>", "<#= ThisAssembly.AssemblyVersion #>")]
 <#
             }
             WriteLineParameters(Meta, LinePostition.PreClass);
-#>    <#= Modifier != TemplateVisibility.none ? Modifier.ToString() + " " : "" #>partial class <#= template.Name ?? ClassName #> : <#= InheritsFrom(template) #>
+#>    <#= Modifier != "" ? Modifier.ToString() + " " : "" #>partial class <#= template.Name ?? ClassName #> : <#= InheritsFrom(template) #>
     {
 <#          PushIndent("        ");
             PrintMemberParameters(Meta);
@@ -50,7 +50,7 @@ namespace <#= Namespace #>
                 if (!template.OmitGeneratedAttribute) {#>
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("<#= typeof(TemplateFile).Assembly.GetName().Name #>", "<#= typeof(TemplateFile).Assembly.GetName().Version #>")]<#
                 } #>
-    <#= Modifier != TemplateVisibility.none ? Modifier.ToString() + " " : "" #>partial class <#= ClassName #>Base
+    <#= Modifier != "" ? Modifier.ToString() + " " : "" #>partial class <#= ClassName #>Base
     {
         public <#= ClassName #>Context Context
         {
@@ -88,7 +88,7 @@ namespace <#= Namespace #>
             }
             else if // as coded in unicode, except CR+LF case is above
                 (ch == '\r' // cr
-                | ch == '\n' // LF 
+                | ch == '\n' // LF
                 | ch == '\x000b' // VT
                 | ch == '\x000c' // FF
                 | ch == '\x0085' // NEL
@@ -226,7 +226,7 @@ namespace <#= Namespace #>
     }
 
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("<#= typeof(TemplateFile).Assembly.GetName().Name #>", "<#= typeof(TemplateFile).Assembly.GetName().Version #>")]
-    <#= Modifier != TemplateVisibility.none ? Modifier.ToString() + " " : "" #>partial class <#= ClassName #>Context
+    <#= Modifier != "" ? Modifier.ToString() + " " : "" #>partial class <#= ClassName #>Context
     {
         public global::System.IO.TextWriter Writer { get; set; }
         public bool EoL { get; set; } = true;

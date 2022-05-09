@@ -27,10 +27,18 @@ namespace Michaelis.QuickTemplates.CsTemplates
     }
 #line hidden
             WriteLine();
-            WriteNoBreakIndent("class ");
             WriteFormated(
 #line 13 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\ClassTemplate.tt"
-      $"{(cls.Classname)}");
+ $"{(cls.Modifier)}");
+#line hidden
+            WriteFormated(
+#line 13 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\ClassTemplate.tt"
+                    $"{(cls.Modifier != "" ? " " : "")}");
+#line hidden
+            WriteNoBreakIndent("partial class ");
+            WriteFormated(
+#line 13 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\ClassTemplate.tt"
+                                                                     $"{(cls.Classname)}");
 #line hidden
             WriteLine();
             WriteNoBreakIndent("{");

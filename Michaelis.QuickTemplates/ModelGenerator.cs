@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -7,22 +8,40 @@ namespace Michaelis.QuickTemplates;
 
 internal class ModelGenerator
 {
-    public FileNode Generate(InputData input, List<MetaData> meta, List<TemplateDirective> directives)
+    private enum ContentType { Context, TemplateBase, Template }
+
+    public IEnumerable<FileNode> Generate(InputData input, List<MetaData> meta, List<TemplateDirective> directives)
     {
         var template = meta.OfType<Template>().Last();
+        if (string.IsNullOrEmpty(template.Inherits))
+        {
+            yield return BuildFile(input, meta, directives, template, ContentType.Context);
+            yield return BuildFile(input, meta, directives, template, ContentType.TemplateBase);
+        }
+        yield return BuildFile(input, meta, directives, template, ContentType.Template);
+    }
 
+    private FileNode BuildFile(InputData input, List<MetaData> meta, List<TemplateDirective> directives, Template template, ContentType content)
+    {
         var fileHead = BuildFileHead(meta, template).ToList().AsReadOnly();
-        var fileContent = BuildFileContent(meta, template, directives).ToList().AsReadOnly();
+        var fileContent = BuildFileContent(meta, template, directives, content).ToList().AsReadOnly();
         var fileBottom = BuildFileBottom(meta, template).ToList().AsReadOnly();
-
+        var postfix = ContentTypeToName(content);
         FileNode node = new FileNode(
-            Path.ChangeExtension(input.SourceRelativeLocation, ".cs"),
+            Path.Combine(Path.GetDirectoryName(input.SourceRelativeLocation), Path.GetFileNameWithoutExtension(input.SourceRelativeLocation) + postfix + ".cs"),
             template.Namespace,
             fileHead, fileContent, fileBottom
         );
-
         return node;
     }
+
+    private static string ContentTypeToName(ContentType content) => content switch
+    {
+        ContentType.Template => "",
+        ContentType.Context => "Context",
+        ContentType.TemplateBase => "Base",
+        _ => throw new NotImplementedException()
+    };
 
     IEnumerable<ModelNode> BuildFileHead(List<MetaData> meta, Template template)
     {
@@ -59,10 +78,24 @@ internal class ModelGenerator
         {
             yield return new FixedLineNode(line.Text, line.Indented);
         }
-   }
+    }
 
-    IEnumerable<ModelNode> BuildFileContent(List<MetaData> meta, Template template, List<TemplateDirective> directives)
+    IEnumerable<ModelNode> BuildFileContent(List<MetaData> meta, Template template, List<TemplateDirective> directives, ContentType content)
     {
-        yield break;
+        string origClassname = (template.Name ?? Path.GetFileNameWithoutExtension(template.Directive.Location.SourceName));
+
+        var classHead = new List<ModelNode>().AsReadOnly();
+        List<ModelNode> classContent = content switch
+        {
+            ContentType.TemplateBase => new() { new BaseClassCodeNode(origClassname) },
+            ContentType.Context => new() { new ContextClassCodeNode() },
+            ContentType.Template => new(),
+            _ => throw new NotImplementedException()
+        };
+
+        var classBottom = new List<ModelNode>().AsReadOnly();
+
+        var cls = new ClassNode(origClassname + ContentTypeToName(content), template.Visibility, classHead, classContent.AsReadOnly(), classBottom);
+        yield return cls;
     }
 }

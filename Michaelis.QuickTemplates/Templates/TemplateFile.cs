@@ -22,9 +22,9 @@ namespace Michaelis.QuickTemplates
             set { _priv_Namespace = value; _priv_set_Namespace = true; }
         }
 
-        private TemplateVisibility _priv_Modifier { get; set; }
+        private string _priv_Modifier { get; set; }
         private bool _priv_set_Modifier { get; set; }
-        public TemplateVisibility Modifier
+        public string Modifier
         {
             get { return _priv_Modifier; }
             set { _priv_Modifier = value; _priv_set_Modifier = true; }
@@ -106,17 +106,17 @@ namespace Michaelis.QuickTemplates
             WriteNoBreakIndent("    ");
             WriteFormated(
 #line 38 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\Templates\TemplateFile.tt"
-       $"{(Modifier != TemplateVisibility.none ? Modifier.ToString() + " " : "")}");
+       $"{(Modifier != "" ? Modifier.ToString() + " " : "")}");
 #line hidden
             WriteNoBreakIndent("partial class ");
             WriteFormated(
 #line 38 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\Templates\TemplateFile.tt"
-                                                                                                $"{(template.Name ?? ClassName)}");
+                                                                           $"{(template.Name ?? ClassName)}");
 #line hidden
             WriteNoBreakIndent(" : ");
             WriteFormated(
 #line 38 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\Templates\TemplateFile.tt"
-                                                                                                                                    $"{(InheritsFrom(template))}");
+                                                                                                               $"{(InheritsFrom(template))}");
 #line hidden
             WriteLine();
             WriteNoBreakIndent("    {");
@@ -155,12 +155,12 @@ namespace Michaelis.QuickTemplates
             WriteNoBreakIndent("    ");
             WriteFormated(
 #line 53 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\Templates\TemplateFile.tt"
-     $"{(Modifier != TemplateVisibility.none ? Modifier.ToString() + " " : "")}");
+     $"{(Modifier != "" ? Modifier.ToString() + " " : "")}");
 #line hidden
             WriteNoBreakIndent("partial class ");
             WriteFormated(
 #line 53 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\Templates\TemplateFile.tt"
-                                                                                              $"{(ClassName)}");
+                                                                         $"{(ClassName)}");
 #line hidden
             WriteNoBreakIndent("Base");
             WriteLine();
@@ -250,7 +250,7 @@ namespace Michaelis.QuickTemplates
             WriteLine();
             WriteNoBreakIndent("                (ch == \'\\r\' // cr");
             WriteLine();
-            WriteNoBreakIndent("                | ch == \'\\n\' // LF ");
+            WriteNoBreakIndent("                | ch == \'\\n\' // LF");
             WriteLine();
             WriteNoBreakIndent("                | ch == \'\\x000b\' // VT");
             WriteLine();
@@ -525,12 +525,12 @@ namespace Michaelis.QuickTemplates
             WriteNoBreakIndent("    ");
             WriteFormated(
 #line 229 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\Templates\TemplateFile.tt"
-     $"{(Modifier != TemplateVisibility.none ? Modifier.ToString() + " " : "")}");
+     $"{(Modifier != "" ? Modifier.ToString() + " " : "")}");
 #line hidden
             WriteNoBreakIndent("partial class ");
             WriteFormated(
 #line 229 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\Templates\TemplateFile.tt"
-                                                                                              $"{(ClassName)}");
+                                                                         $"{(ClassName)}");
 #line hidden
             WriteNoBreakIndent("Context");
             WriteLine();

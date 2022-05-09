@@ -39,7 +39,6 @@ namespace Michaelis.QuickTemplates.CsTemplates
     {
         ApplyNode(Context, selector, contentNode);
     }
-    PopIndent();
 
     foreach (var bottomNode in file.Bottom)
     {
