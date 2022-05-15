@@ -34,6 +34,7 @@ class TemplateSelector
             ClassNode cls => context => new ClassTemplate() { Context = context }.TransformText(this, cls),
             ContextClassCodeNode cccn => context => new ContextClassCodeTemplate() { Context = context }.TransformText(this, cccn),
             BaseClassCodeNode bccn => context => new BaseClassCodeTemplate() { Context = context }.TransformText(this, bccn),
+            SimplePropertyNode spn => context => new SimplePropertyTemplate() { Context = context }.TransformText(this, spn),
             _ => throw new NotSupportedException()
         };
     }

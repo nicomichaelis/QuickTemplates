@@ -33,12 +33,12 @@ namespace Michaelis.QuickTemplates.CsTemplates
 #line hidden
             WriteFormated(
 #line 13 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\ClassTemplate.tt"
-                    $"{(cls.Modifier != "" ? " " : "")}");
+                    $"{(GetIf(" ", cls.Modifier))}");
 #line hidden
             WriteNoBreakIndent("partial class ");
             WriteFormated(
 #line 13 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\ClassTemplate.tt"
-                                                                     $"{(cls.Classname)}");
+                                                                $"{(cls.Classname)}");
 #line hidden
             WriteLine();
             WriteNoBreakIndent("{");

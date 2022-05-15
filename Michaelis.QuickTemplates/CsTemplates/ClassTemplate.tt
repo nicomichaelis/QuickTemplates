@@ -10,7 +10,7 @@
         ApplyNode(Context, selector, headNode);
     }
 #>
-<#= cls.Modifier #><#= cls.Modifier != "" ? " " : "" #>partial class <#=cls.Classname #>
+<#= cls.Modifier #><#= GetIf(" ", cls.Modifier) #>partial class <#=cls.Classname #>
 {
 <#  PushIndent("    ");
     foreach (var contentNode in cls.Content)
