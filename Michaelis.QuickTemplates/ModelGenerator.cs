@@ -106,5 +106,20 @@ internal class ModelGenerator
         {
             yield return new SimplePropertyNode(z.Name, z.Type, z.Modifier, z.GetAccessor, z.SetAccessor, z.Initializer);
         }
+
+        bool hasLineInfo = false;
+        foreach (var dir in directives.Where(z => z.Mode == DirectiveMode.ClassCode))
+        {
+            if (template.Linepragmas)
+            {
+                yield return new LineInfoNode(dir.Location.SourceName, dir.Location.Line);
+                hasLineInfo = true;
+            }
+            yield return new FixedLineNode(new string(' ', Math.Max(0, dir.Location.Col - 1)) + dir.Data, false);
+        }
+        if (hasLineInfo)
+        {
+            yield return new LineEndInfoNode(FinishLineInfoMode.Default);
+        }
     }
 }

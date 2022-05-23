@@ -7,4 +7,5 @@
 <#@ parameter name="fixedLineNode" type="FixedLineNode" availability="method" required="true" #>
 <#
     if (!fixedLineNode.Indented) SkipIndent();
-#><#= fixedLineNode.Content #>
+    WriteNoBreakIndent(fixedLineNode.Content);
+#>

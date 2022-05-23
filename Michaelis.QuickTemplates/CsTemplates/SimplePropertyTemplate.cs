@@ -53,7 +53,7 @@ namespace Michaelis.QuickTemplates.CsTemplates
             WriteNoBreakIndent(" }");
             WriteFormated(
 #line 8 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\SimplePropertyTemplate.tt"
-                                                                                                                                                                                                                                                                              $"{(!string.IsNullOrEmpty(propertyNode.Initializer) ? "" : " " + propertyNode.Initializer)}");
+                                                                                                                                                                                                                                                                              $"{(!string.IsNullOrEmpty(propertyNode.Initializer) ? "" : " " + propertyNode.Initializer + ";")}");
 #line hidden
             WriteLine();
         }

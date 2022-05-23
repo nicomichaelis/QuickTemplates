@@ -22,10 +22,7 @@ namespace Michaelis.QuickTemplates.CsTemplates
 #line hidden
 #line 9 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\FixedLineTemplate.tt"
     if (!fixedLineNode.Indented) SkipIndent();
-#line hidden
-            WriteFormated(
-#line 10 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\FixedLineTemplate.tt"
-   $"{(fixedLineNode.Content)}");
+    WriteNoBreakIndent(fixedLineNode.Content);
 #line hidden
             WriteLine();
         }
