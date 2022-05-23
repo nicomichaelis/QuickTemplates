@@ -6,5 +6,9 @@ class Parameter : MetaData
     public ParameterAvailability Availability { get; set; } = ParameterAvailability.Method;
     public string Name { get; set; }
     public string Initializer { get; set; }
+    public string Modifier { get; set; } = "public";
+    public string GetAccessor { get; set; } = "get;";
+    public string SetAccessor { get; set; } = "set;";
+    [System.Obsolete]
     public bool Required { get; set; } = false;
 }

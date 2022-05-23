@@ -5,4 +5,4 @@
 <#@ import namespace="Michaelis.QuickTemplates.Meta" #>
 <#@ parameter name="selector" type="TemplateSelector" availability="method" required="true" #>
 <#@ parameter name="propertyNode" type="SimplePropertyNode" availability="method" required="true" #>
-<#= propertyNode.Modifier #><#= GetIf(" ", propertyNode.Modifier) #><#= propertyNode.PropertyType #> <#= propertyNode.Propertyname #> { <#= propertyNode.GetAccessor #><#= GetIf(" ", propertyNode.GetAccessor, propertyNode.SetAccessor) #><#= propertyNode.SetAccessor #> }
+<#= propertyNode.Modifier #><#= GetIf(" ", propertyNode.Modifier) #><#= propertyNode.PropertyType #> <#= propertyNode.Propertyname #> { <#= propertyNode.GetAccessor #><#= GetIf(" ", propertyNode.GetAccessor, propertyNode.SetAccessor) #><#= propertyNode.SetAccessor #> }<#= !string.IsNullOrEmpty(propertyNode.Initializer) ? "" : " " + propertyNode.Initializer + ";" #>

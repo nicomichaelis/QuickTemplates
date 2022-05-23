@@ -51,6 +51,10 @@ namespace Michaelis.QuickTemplates.CsTemplates
                                                                                                                                                                                                                                              $"{(propertyNode.SetAccessor)}");
 #line hidden
             WriteNoBreakIndent(" }");
+            WriteFormated(
+#line 8 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\SimplePropertyTemplate.tt"
+                                                                                                                                                                                                                                                                              $"{(!string.IsNullOrEmpty(propertyNode.Initializer) ? "" : " " + propertyNode.Initializer)}");
+#line hidden
             WriteLine();
         }
 #line default

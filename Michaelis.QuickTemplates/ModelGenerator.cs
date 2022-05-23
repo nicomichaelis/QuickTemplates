@@ -89,7 +89,7 @@ internal class ModelGenerator
         {
             ContentType.TemplateBase => new() { new BaseClassCodeNode(origClassname) },
             ContentType.Context => new() { new ContextClassCodeNode() },
-            ContentType.Template => new(),
+            ContentType.Template => BuildTemplateClassContent(meta, template, directives).ToList(),
             _ => throw new NotImplementedException()
         };
 
@@ -97,5 +97,14 @@ internal class ModelGenerator
 
         var cls = new ClassNode(origClassname + ContentTypeToName(content), template.Visibility, classHead, classContent.AsReadOnly(), classBottom);
         yield return cls;
+    }
+
+    private IEnumerable<ModelNode> BuildTemplateClassContent(List<MetaData> meta, Template template, List<TemplateDirective> directives)
+    {
+        var memberParameters = meta.OfType<Parameter>().Where(z => z.Availability == ParameterAvailability.Class).ToList();
+        foreach (var z in memberParameters)
+        {
+            yield return new SimplePropertyNode(z.Name, z.Type, z.Modifier, z.GetAccessor, z.SetAccessor, z.Initializer);
+        }
     }
 }

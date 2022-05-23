@@ -12,7 +12,7 @@ record ClassNode(string Classname, string Modifier, IList<ModelNode> Head, IList
 
 record UsingNode(string Namespace) : ModelNode;
 
-record SimplePropertyNode(string Propertyname, string PropertyType, string Modifier, string GetAccessor, string SetAccessor) : ModelNode;
+record SimplePropertyNode(string Propertyname, string PropertyType, string Modifier, string GetAccessor, string SetAccessor, string Initializer) : ModelNode;
 
 record AttributeNode(string Value) : ModelNode;
 
