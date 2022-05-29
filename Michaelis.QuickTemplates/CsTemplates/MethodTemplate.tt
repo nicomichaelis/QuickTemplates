@@ -1,0 +1,27 @@
+<#@ template Namespace="Michaelis.QuickTemplates.CsTemplates" Visibility="internal" Inherits="CsBaseTemplate" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="Michaelis.QuickTemplates.Meta" #>
+<#@ parameter name="selector" type="TemplateSelector" availability="method" required="true" #>
+<#@ parameter name="methodNode" type="MethodNode" availability="method" required="true" #><#
+    foreach (var headNode in methodNode.Head)
+    {
+        ApplyNode(Context, selector, headNode);
+    }
+#>
+<#= methodNode.Modifier #><#= GetIf(" ", methodNode.Modifier) #><#= methodNode.ReturnType #> <#= methodNode.MethodName #>(<# PushIndent("    ");
+    foreach (var paramNode in methodNode.Parameters)
+    {
+       ApplyNode(Context, selector, paramNode);
+    }
+#>)<# PopIndent(); #>
+{
+<#  PushIndent("    ");
+    foreach (var contentNode in methodNode.Content)
+    {
+       ApplyNode(Context, selector, contentNode);
+    }
+    PopIndent();
+#>
+}

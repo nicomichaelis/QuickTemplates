@@ -1,6 +1,6 @@
 namespace Michaelis.QuickTemplates.Meta;
 
-enum LinePostition { Undefined, Head, PreNamespace, PreClass, Bottom }
+enum LinePostition { Undefined, Head, PreNamespace, PreClass, PreTransformMethod, Bottom }
 
 class Line : MetaData
 {

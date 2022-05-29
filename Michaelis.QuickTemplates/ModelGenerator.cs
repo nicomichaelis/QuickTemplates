@@ -120,6 +120,24 @@ internal class ModelGenerator
         if (hasLineInfo)
         {
             yield return new LineEndInfoNode(FinishLineInfoMode.Default);
+            hasLineInfo = false;
+        }
+
+        if (directives.Any(z => (z.Mode != DirectiveMode.Meta) && (z.Mode != DirectiveMode.ClassCode)))
+        {
+            List<ModelNode> methodContent = new();
+            List<ModelNode> methodParams = meta.OfType<Parameter>()
+                .Where(z => z.Availability == ParameterAvailability.Method)
+                .Select(parameter => new ParameterNode(parameter.Type, parameter.Name))
+                .OfType<ModelNode>().ToList();
+            List<ModelNode> methdoHead = meta.OfType<Line>()
+                .Where(z => z.Position == LinePostition.PreTransformMethod)
+                .Select(line => new FixedLineNode(line.Text, line.Indented))
+                .OfType<ModelNode>().ToList();
+
+            var method = new MethodNode(template.TransformMethodVisibility, "void", template.TransformMethod, methodParams.AsReadOnly(),
+                Enumerable.Empty<ModelNode>().ToList().AsReadOnly(), methodContent.AsReadOnly());
+            yield return method;
         }
     }
 }
