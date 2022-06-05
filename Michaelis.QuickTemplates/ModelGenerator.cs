@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Michaelis.QuickTemplates.Meta;
+using Michaelis.QuickTemplates.Text;
 
 namespace Michaelis.QuickTemplates;
 
@@ -125,7 +126,7 @@ internal class ModelGenerator
 
         if (directives.Any(z => (z.Mode != DirectiveMode.Meta) && (z.Mode != DirectiveMode.ClassCode)))
         {
-            List<ModelNode> methodContent = new();
+            List<ModelNode> methodContent = BuildTemplateMethodContent(meta, template, directives);
             List<ModelNode> methodParams = meta.OfType<Parameter>()
                 .Where(z => z.Availability == ParameterAvailability.Method)
                 .Select(parameter => new ParameterNode(parameter.Type, parameter.Name))
@@ -139,5 +140,66 @@ internal class ModelGenerator
                 Enumerable.Empty<ModelNode>().ToList().AsReadOnly(), methodContent.AsReadOnly());
             yield return method;
         }
+    }
+
+    private List<ModelNode> BuildTemplateMethodContent(List<MetaData> meta, Template template, List<TemplateDirective> directives)
+    {
+        List<ModelNode> result = new();
+        if (template.Linepragmas)
+        {
+            result.Add(new LineEndInfoNode(FinishLineInfoMode.Hidden));
+        }
+        foreach (var dir in directives)
+        {
+            switch (dir.Mode)
+            {
+                case DirectiveMode.Meta:
+                case DirectiveMode.ClassCode:
+                    break;
+                case DirectiveMode.NewLine:
+                    result.Add(new FixedLineNode("WriteLine();", true));
+                    break;
+                case DirectiveMode.Text:
+                    result.Add(new FixedLineNode($"WriteNoBreakIndent({StringUtils.SafeEncodeString(dir.Data)});", true));
+                    break;
+                case DirectiveMode.Insert:
+                    result.Add(new FixedLineNode($"WriteFormated(", true));
+                    if (template.Linepragmas)
+                    {
+                        result.Add(new LineInfoNode(dir.Location.SourceName, dir.Location.Line));
+                    }
+                    string prefix = template.Linepragmas
+                                  ? new string(' ', Math.Max(0, dir.Location.Col - 1 - 4))
+                                  : "    ";
+                    result.Add(new FixedLineNode($"{prefix}$\"{{({dir.Data})}}\");", !template.Linepragmas));
+                    if (template.Linepragmas)
+                    {
+                        result.Add(new LineEndInfoNode(FinishLineInfoMode.Hidden));
+                    }
+                    break;
+                case DirectiveMode.Code:
+                    if (template.Linepragmas)
+                    {
+                        result.Add(new LineInfoNode(dir.Location.SourceName, dir.Location.Line));
+                    }
+                    string cprefix = template.Linepragmas
+                                  ? new string(' ', Math.Max(0, dir.Location.Col - 1))
+                                  : "";
+                    result.Add(new FixedLineNode($"{cprefix}{dir.Data}", !template.Linepragmas));
+                    if (template.Linepragmas)
+                    {
+                        result.Add(new LineEndInfoNode(FinishLineInfoMode.Hidden));
+                    }
+                    break;
+                default:
+                    throw new NotImplementedException($"{dir.Mode}");
+            }
+        }
+
+        if (template.Linepragmas)
+        {
+            result.Add(new LineEndInfoNode(FinishLineInfoMode.Default));
+        }
+        return result;
     }
 }
