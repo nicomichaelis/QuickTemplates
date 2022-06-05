@@ -8,7 +8,7 @@ abstract record ModelNode();
 
 record FileNode(string Filename, string Namespace, IList<ModelNode> Head, IList<ModelNode> Content, IList<ModelNode> Bottom) : ModelNode;
 
-record ClassNode(string Classname, string Modifier, IList<ModelNode> Head, IList<ModelNode> Content, IList<ModelNode> Bottom) : ModelNode;
+record ClassNode(string Classname, string Modifier, string InheritsFrom, IList<ModelNode> Head, IList<ModelNode> Content, IList<ModelNode> Bottom) : ModelNode;
 
 record UsingNode(string Namespace) : ModelNode;
 

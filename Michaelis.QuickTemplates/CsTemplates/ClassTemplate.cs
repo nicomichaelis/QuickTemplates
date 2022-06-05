@@ -38,7 +38,15 @@ namespace Michaelis.QuickTemplates.CsTemplates
             WriteNoBreakIndent("partial class ");
             WriteFormated(
 #line 13 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\ClassTemplate.tt"
-                                                                $"{(cls.Classname)}");
+                                                                 $"{(cls.Classname)}");
+#line hidden
+            WriteFormated(
+#line 13 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\ClassTemplate.tt"
+                                                                                     $"{(GetIf(" : ", cls.InheritsFrom))}");
+#line hidden
+            WriteFormated(
+#line 13 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\ClassTemplate.tt"
+                                                                                                                          $"{(cls.InheritsFrom)}");
 #line hidden
             WriteLine();
             WriteNoBreakIndent("{");

@@ -96,11 +96,24 @@ internal class ModelGenerator
 
         var classBottom = new List<ModelNode>().AsReadOnly();
 
-        var cls = new ClassNode(origClassname + ContentTypeToName(content), template.Visibility, classHead, classContent.AsReadOnly(), classBottom);
+        var cls = new ClassNode(origClassname + ContentTypeToName(content), template.Visibility, InheritsFrom(origClassname, content, template), classHead, classContent.AsReadOnly(), classBottom);
         yield return cls;
     }
 
-    private IEnumerable<ModelNode> BuildTemplateClassContent(List<MetaData> meta, Template template, List<TemplateDirective> directives)
+    string InheritsFrom(string origClassname, ContentType content, Template template)
+    {
+        if (content != ContentType.Template) return "";
+        if (!string.IsNullOrEmpty(template.Inherits))
+        {
+            return template.Inherits;
+        }
+        else
+        {
+            return origClassname + ContentTypeToName(ContentType.TemplateBase);
+        }
+    }
+
+    IEnumerable<ModelNode> BuildTemplateClassContent(List<MetaData> meta, Template template, List<TemplateDirective> directives)
     {
         var memberParameters = meta.OfType<Parameter>().Where(z => z.Availability == ParameterAvailability.Class).ToList();
         foreach (var z in memberParameters)
