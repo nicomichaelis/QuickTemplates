@@ -4,13 +4,14 @@
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="Michaelis.QuickTemplates.Meta" #>
 <#@ parameter name="selector" type="TemplateSelector" availability="method" required="true" #>
-<#@ parameter name="cls" type="ClassNode" availability="method" required="true" #><#
+<#@ parameter name="cls" type="ClassNode" availability="method" required="true" #>
+
+<#
     foreach (var headNode in cls.Head)
     {
         ApplyNode(Context, selector, headNode);
     }
-#>
-<#= cls.Modifier #><#= GetIf(" ", cls.Modifier) #>partial class <#= cls.Classname #><#= GetIf(" : ", cls.InheritsFrom) #><#= cls.InheritsFrom #>
+#><#= cls.Modifier #><#= GetIf(" ", cls.Modifier) #>partial class <#= cls.Classname #><#= GetIf(" : ", cls.InheritsFrom) #><#= cls.InheritsFrom #>
 {
 <#  PushIndent("    ");
     foreach (var contentNode in cls.Content)

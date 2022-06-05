@@ -8,27 +8,26 @@ using System.Collections.Generic;
 using System.Linq;
 #line default
 
-namespace Michaelis.QuickTemplates.CsTemplates
+namespace Michaelis.QuickTemplates.CsTemplates;
+
+[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Michaelis.QuickTemplates", "0.0.0.0")]
+internal partial class UsingTemplate : CsBaseTemplate
 {
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Michaelis.QuickTemplates", "0.0.0.0")]
-    internal partial class UsingTemplate : CsBaseTemplate
+
+    public void TransformText(
+        TemplateSelector selector,
+        UsingNode use
+        )
     {
-
-        public void TransformText(TemplateSelector selector, UsingNode use)
-        {
-            if (null == selector) throw new ArgumentNullException(nameof(selector));
-            if (null == use) throw new ArgumentNullException(nameof(use));
-
 #line hidden
-            WriteNoBreakIndent("using ");
-            WriteFormated(
+        WriteNoBreakIndent("using ");
+        WriteFormated(
 #line 8 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\UsingTemplate.tt"
-       $"{(use.Namespace)}");
+      $"{(use.Namespace)}");
 #line hidden
-            WriteNoBreakIndent(";");
-            WriteLine();
-        }
+        WriteNoBreakIndent(";");
+        WriteLine();
 #line default
-    }
 
+    }
 }

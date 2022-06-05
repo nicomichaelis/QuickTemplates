@@ -8,30 +8,28 @@ using System.Collections.Generic;
 using System.Linq;
 #line default
 
-namespace Michaelis.QuickTemplates.CsTemplates
+namespace Michaelis.QuickTemplates.CsTemplates;
+
+[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Michaelis.QuickTemplates", "0.0.0.0")]
+internal partial class ParameterTemplate : CsBaseTemplate
 {
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Michaelis.QuickTemplates", "0.0.0.0")]
-    internal partial class ParameterTemplate : CsBaseTemplate
+
+    public void TransformText(
+        TemplateSelector selector,
+        ParameterNode parameterNode
+        )
     {
-
-        public void TransformText(TemplateSelector selector, ParameterNode parameterNode)
-        {
-            if (null == selector) throw new ArgumentNullException(nameof(selector));
-            if (null == parameterNode) throw new ArgumentNullException(nameof(parameterNode));
-
 #line hidden
-            WriteLine();
-            WriteFormated(
-#line 9 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\ParameterTemplate.tt"
- $"{(parameterNode.ParameterType)}");
+        WriteFormated(
+#line 8 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\ParameterTemplate.tt"
+$"{(parameterNode.ParameterType)}");
 #line hidden
-            WriteNoBreakIndent(" ");
-            WriteFormated(
-#line 9 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\ParameterTemplate.tt"
-                                    $"{(parameterNode.ParameterName)}");
+        WriteNoBreakIndent(" ");
+        WriteFormated(
+#line 8 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\ParameterTemplate.tt"
+                                   $"{(parameterNode.ParameterName)}");
 #line hidden
-        }
 #line default
-    }
 
+    }
 }

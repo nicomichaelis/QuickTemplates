@@ -85,7 +85,9 @@ internal class ModelGenerator
     {
         string origClassname = (template.Name ?? Path.GetFileNameWithoutExtension(template.Directive.Location.SourceName));
 
-        var classHead = new List<ModelNode>().AsReadOnly();
+        var classHead = new List<ModelNode>() {
+                new FixedLineNode($"[global::System.CodeDom.Compiler.GeneratedCodeAttribute(\"{ThisAssembly.AssemblyTitle}\", \"{ThisAssembly.AssemblyVersion}\")]", true)
+            }.AsReadOnly();
         List<ModelNode> classContent = content switch
         {
             ContentType.TemplateBase => new() { new BaseClassCodeNode(origClassname) },
@@ -140,10 +142,18 @@ internal class ModelGenerator
         if (directives.Any(z => (z.Mode != DirectiveMode.Meta) && (z.Mode != DirectiveMode.ClassCode)))
         {
             List<ModelNode> methodContent = BuildTemplateMethodContent(meta, template, directives);
-            List<ModelNode> methodParams = meta.OfType<Parameter>()
+            List<ModelNode> methodParams =
+                meta.OfType<Parameter>()
                 .Where(z => z.Availability == ParameterAvailability.Method)
                 .Select(parameter => new ParameterNode(parameter.Type, parameter.Name))
-                .OfType<ModelNode>().ToList();
+                .OfType<ModelNode>().Intersperse((pos) => (true,
+                    new FixedLineNode(pos switch
+                    {
+                        InterspersePosition.Init => "",
+                        InterspersePosition.Between => ",",
+                        InterspersePosition.End => "",
+                        _ => throw new NotSupportedException(pos.ToString())
+                    }, true))).ToList();
             List<ModelNode> methdoHead = meta.OfType<Line>()
                 .Where(z => z.Position == LinePostition.PreTransformMethod)
                 .Select(line => new FixedLineNode(line.Text, line.Indented))

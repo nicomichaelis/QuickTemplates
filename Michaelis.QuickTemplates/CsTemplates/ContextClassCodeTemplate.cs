@@ -8,28 +8,27 @@ using System.Collections.Generic;
 using System.Linq;
 #line default
 
-namespace Michaelis.QuickTemplates.CsTemplates
+namespace Michaelis.QuickTemplates.CsTemplates;
+
+[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Michaelis.QuickTemplates", "0.0.0.0")]
+internal partial class ContextClassCodeTemplate : CsBaseTemplate
 {
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Michaelis.QuickTemplates", "0.0.0.0")]
-    internal partial class ContextClassCodeTemplate : CsBaseTemplate
+
+    public void TransformText(
+        TemplateSelector selector,
+        ContextClassCodeNode cccn
+        )
     {
-
-        public void TransformText(TemplateSelector selector, ContextClassCodeNode cccn)
-        {
-            if (null == selector) throw new ArgumentNullException(nameof(selector));
-            if (null == cccn) throw new ArgumentNullException(nameof(cccn));
-
 #line hidden
-            WriteNoBreakIndent("public global::System.IO.TextWriter Writer { get; init; }");
-            WriteLine();
-            WriteNoBreakIndent("public bool EoL { get; set; } = true;");
-            WriteLine();
-            WriteNoBreakIndent("public global::System.Collections.Generic.Stack<string> Indents { get; } = new global::System.Collections.Generic.Stack<string>();");
-            WriteLine();
-            WriteNoBreakIndent("public global::System.IFormatProvider FormatProvider { get; set; }");
-            WriteLine();
-        }
+        WriteNoBreakIndent("public global::System.IO.TextWriter Writer { get; init; }");
+        WriteLine();
+        WriteNoBreakIndent("public bool EoL { get; set; } = true;");
+        WriteLine();
+        WriteNoBreakIndent("public global::System.Collections.Generic.Stack<string> Indents { get; } = new global::System.Collections.Generic.Stack<string>();");
+        WriteLine();
+        WriteNoBreakIndent("public global::System.IFormatProvider FormatProvider { get; set; }");
+        WriteLine();
 #line default
-    }
 
+    }
 }

@@ -8,56 +8,55 @@ using System.Collections.Generic;
 using System.Linq;
 #line default
 
-namespace Michaelis.QuickTemplates.CsTemplates
+namespace Michaelis.QuickTemplates.CsTemplates;
+
+[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Michaelis.QuickTemplates", "0.0.0.0")]
+internal partial class SimplePropertyTemplate : CsBaseTemplate
 {
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Michaelis.QuickTemplates", "0.0.0.0")]
-    internal partial class SimplePropertyTemplate : CsBaseTemplate
+
+    public void TransformText(
+        TemplateSelector selector,
+        SimplePropertyNode propertyNode
+        )
     {
-
-        public void TransformText(TemplateSelector selector, SimplePropertyNode propertyNode)
-        {
-            if (null == selector) throw new ArgumentNullException(nameof(selector));
-            if (null == propertyNode) throw new ArgumentNullException(nameof(propertyNode));
-
 #line hidden
-            WriteFormated(
+        WriteFormated(
 #line 8 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\SimplePropertyTemplate.tt"
- $"{(propertyNode.Modifier)}");
+$"{(propertyNode.Modifier)}");
 #line hidden
-            WriteFormated(
+        WriteFormated(
 #line 8 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\SimplePropertyTemplate.tt"
-                             $"{(GetIf(" ", propertyNode.Modifier))}");
+                            $"{(GetIf(" ", propertyNode.Modifier))}");
 #line hidden
-            WriteFormated(
+        WriteFormated(
 #line 8 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\SimplePropertyTemplate.tt"
-                                                                     $"{(propertyNode.PropertyType)}");
+                                                                    $"{(propertyNode.PropertyType)}");
 #line hidden
-            WriteNoBreakIndent(" ");
-            WriteFormated(
+        WriteNoBreakIndent(" ");
+        WriteFormated(
 #line 8 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\SimplePropertyTemplate.tt"
-                                                                                                      $"{(propertyNode.Propertyname)}");
+                                                                                                     $"{(propertyNode.Propertyname)}");
 #line hidden
-            WriteNoBreakIndent(" { ");
-            WriteFormated(
+        WriteNoBreakIndent(" { ");
+        WriteFormated(
 #line 8 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\SimplePropertyTemplate.tt"
-                                                                                                                                         $"{(propertyNode.GetAccessor)}");
+                                                                                                                                        $"{(propertyNode.GetAccessor)}");
 #line hidden
-            WriteFormated(
+        WriteFormated(
 #line 8 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\SimplePropertyTemplate.tt"
-                                                                                                                                                                        $"{(GetIf(" ", propertyNode.GetAccessor, propertyNode.SetAccessor))}");
+                                                                                                                                                                       $"{(GetIf(" ", propertyNode.GetAccessor, propertyNode.SetAccessor))}");
 #line hidden
-            WriteFormated(
+        WriteFormated(
 #line 8 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\SimplePropertyTemplate.tt"
-                                                                                                                                                                                                                                             $"{(propertyNode.SetAccessor)}");
+                                                                                                                                                                                                                                            $"{(propertyNode.SetAccessor)}");
 #line hidden
-            WriteNoBreakIndent(" }");
-            WriteFormated(
+        WriteNoBreakIndent(" }");
+        WriteFormated(
 #line 8 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\SimplePropertyTemplate.tt"
-                                                                                                                                                                                                                                                                              $"{(!string.IsNullOrEmpty(propertyNode.Initializer) ? "" : " " + propertyNode.Initializer + ";")}");
+                                                                                                                                                                                                                                                                             $"{(!string.IsNullOrEmpty(propertyNode.Initializer) ? "" : " " + propertyNode.Initializer + ";")}");
 #line hidden
-            WriteLine();
-        }
+        WriteLine();
 #line default
-    }
 
+    }
 }

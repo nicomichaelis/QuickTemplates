@@ -5,5 +5,4 @@
 <#@ import namespace="Michaelis.QuickTemplates.Meta" #>
 <#@ parameter name="selector" type="TemplateSelector" availability="method" required="true" #>
 <#@ parameter name="parameterNode" type="ParameterNode" availability="method" required="true" #>
-
 <#= parameterNode.ParameterType #> <#= parameterNode.ParameterName #>

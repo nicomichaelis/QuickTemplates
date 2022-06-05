@@ -8,17 +8,17 @@ using System.Collections.Generic;
 using System.Linq;
 #line default
 
-namespace Michaelis.QuickTemplates.CsTemplates
+namespace Michaelis.QuickTemplates.CsTemplates;
+
+[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Michaelis.QuickTemplates", "0.0.0.0")]
+internal partial class CsFileTemplate10 : CsBaseTemplate
 {
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Michaelis.QuickTemplates", "0.0.0.0")]
-    internal partial class CsFileTemplate10 : CsBaseTemplate
+
+    public void TransformText(
+        TemplateSelector selector,
+        FileNode file
+        )
     {
-
-        public void TransformText(TemplateSelector selector, FileNode file)
-        {
-            if (null == selector) throw new ArgumentNullException(nameof(selector));
-            if (null == file) throw new ArgumentNullException(nameof(file));
-
 #line hidden
 #line 8 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\CsFileTemplate10.tt"
     foreach (var headNode in file.Head)
@@ -26,14 +26,14 @@ namespace Michaelis.QuickTemplates.CsTemplates
         ApplyNode(Context, selector, headNode);
     }
 #line hidden
-            WriteLine();
-            WriteNoBreakIndent("namespace ");
-            WriteFormated(
+        WriteLine();
+        WriteNoBreakIndent("namespace ");
+        WriteFormated(
 #line 13 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\CsFileTemplate10.tt"
-           $"{(file.Namespace)}");
+          $"{(file.Namespace)}");
 #line hidden
-            WriteNoBreakIndent(";");
-            WriteLine();
+        WriteNoBreakIndent(";");
+        WriteLine();
 #line 15 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\CsFileTemplate10.tt"
     foreach (var contentNode in file.Content)
     {
@@ -45,8 +45,7 @@ namespace Michaelis.QuickTemplates.CsTemplates
         ApplyNode(Context, selector, bottomNode);
     }
 #line hidden
-        }
 #line default
-    }
 
+    }
 }

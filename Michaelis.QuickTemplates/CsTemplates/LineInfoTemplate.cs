@@ -8,35 +8,34 @@ using System.Collections.Generic;
 using System.Linq;
 #line default
 
-namespace Michaelis.QuickTemplates.CsTemplates
+namespace Michaelis.QuickTemplates.CsTemplates;
+
+[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Michaelis.QuickTemplates", "0.0.0.0")]
+internal partial class LineInfoTemplate : CsBaseTemplate
 {
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Michaelis.QuickTemplates", "0.0.0.0")]
-    internal partial class LineInfoTemplate : CsBaseTemplate
+
+    public void TransformText(
+        TemplateSelector selector,
+        LineInfoNode lineInfoNode
+        )
     {
-
-        public void TransformText(TemplateSelector selector, LineInfoNode lineInfoNode)
-        {
-            if (null == selector) throw new ArgumentNullException(nameof(selector));
-            if (null == lineInfoNode) throw new ArgumentNullException(nameof(lineInfoNode));
-
 #line hidden
 #line 8 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\LineInfoTemplate.tt"
    SkipIndent();
 #line hidden
-            WriteNoBreakIndent("#line ");
-            WriteFormated(
+        WriteNoBreakIndent("#line ");
+        WriteFormated(
 #line 8 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\LineInfoTemplate.tt"
-                          $"{(lineInfoNode.Line)}");
+                         $"{(lineInfoNode.Line)}");
 #line hidden
-            WriteNoBreakIndent(" \"");
-            WriteFormated(
+        WriteNoBreakIndent(" \"");
+        WriteFormated(
 #line 8 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\LineInfoTemplate.tt"
-                                                    $"{(lineInfoNode.Filename)}");
+                                                   $"{(lineInfoNode.Filename)}");
 #line hidden
-            WriteNoBreakIndent("\"");
-            WriteLine();
-        }
+        WriteNoBreakIndent("\"");
+        WriteLine();
 #line default
-    }
 
+    }
 }

@@ -87,10 +87,13 @@ internal class TemplateGenerator
         static OutputData CreateOutputData(FileNode node, TemplateSelector selector)
         {
             var transformText = selector.GetTemplateTransformForNode(node);
-            var context = new CsBaseTemplateContext();
+
             return new OutputData(node.Filename, (writer) =>
             {
-                context.Writer = writer;
+                var context = new CsBaseTemplateContext()
+                {
+                    Writer = writer
+                };
                 transformText(context);
             });
         }
