@@ -8,10 +8,12 @@ namespace Michaelis.QuickTemplates;
 internal class FileWriter : IResultWriter
 {
     readonly DirectoryInfo _output;
+    DiagnosticsCollection Diagnostics { get; }
 
-    public FileWriter(DirectoryInfo output)
+    public FileWriter(DirectoryInfo output, DiagnosticsCollection diagnostics)
     {
         _output = output;
+        Diagnostics = diagnostics;
     }
 
     public async Task Write(List<OutputData> outputData)
@@ -30,5 +32,9 @@ internal class FileWriter : IResultWriter
         using var cs = new ChangeStream(File.Open(filename, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.Read), false);
         using var writer = new StreamWriter(cs);
         data.WriteAction(writer);
+        if (cs.Updated)
+        {
+            Diagnostics.Add(new Diagnostic(DiagnosticSeverity.Info, DiagnosticMessages.FileUpdated(filename)));
+        }
     }
 }
