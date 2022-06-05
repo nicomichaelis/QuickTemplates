@@ -19,7 +19,7 @@ public static class DiagnosticMessages
     public static DiagnosticMessage FileUpdated(string filename) => new DiagnosticMessageInstance(new TextLocation(filename, 1, 1), $"file updated");
     public static DiagnosticMessage RequiredPropertyMissing(TextLocation location, string property) => new DiagnosticMessageInstance(location, $"missing required property '{property}'");
     public static DiagnosticMessage TemplateDirectiveMissing(string filename) => new DiagnosticMessageInstance(new TextLocation(filename, 1, 1), $"template directive missing");
-    public static DiagnosticMessage TemplateDirectiveIgnored(TextLocation location) => new DiagnosticMessageInstance(location, $"additional template directive ignored");
+    public static DiagnosticMessage MultipleTemplateDirectives(TextLocation location) => new DiagnosticMessageInstance(location, $"multiple template directives");
     public static DiagnosticMessage IncorrectParameter(TextLocation location) => new DiagnosticMessageInstance(location, $"parameter not correct");
     public static DiagnosticMessage ParameterAlreadyInUse(TextLocation location) => new DiagnosticMessageInstance(location, $"parameter already in use");
 

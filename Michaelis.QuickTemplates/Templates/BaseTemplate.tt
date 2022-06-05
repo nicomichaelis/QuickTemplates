@@ -1,2 +1,0 @@
-<#@ template Namespace="Michaelis.QuickTemplates" Visibility="internal" #>
-<#@ line position="PreNamespace" text="#nullable disable" #>

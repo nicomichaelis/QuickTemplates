@@ -28,6 +28,8 @@ internal class TemplateGenerator
     {
         var metaData = await ProcessMeta(cancel);
         if (Diagnostics.ContainsErrors) return -1;
+        await VerifyMeta(metaData, cancel);
+        if (Diagnostics.ContainsErrors) return -1;        
         var modelData = await ProcessModel(metaData, cancel);
         if (Diagnostics.ContainsErrors) return -1;
         if (cancel.IsCancellationRequested) return -1;
@@ -62,6 +64,13 @@ internal class TemplateGenerator
             Diagnostics.Add(new Diagnostic(DiagnosticSeverity.Error, DiagnosticMessages.Exception(e, null)));
             return null;
         }
+    }
+    private async Task VerifyMeta(TemplateDirectiveAndMetaData[] metaData, CancellationToken cancel)
+    {
+        cancel.ThrowIfCancellationRequested();
+        MetaVerifier verifier = new();
+        var data = metaData.Select(z => (z.Input, z.Directives, z.Meta)).ToList();
+        await verifier.Verify(data, Diagnostics);
     }
 
     async Task<ModelData> ProcessModel(TemplateDirectiveAndMetaData[] metaData, CancellationToken cancel)

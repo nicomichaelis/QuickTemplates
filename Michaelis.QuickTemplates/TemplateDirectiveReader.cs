@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using Michaelis.QuickTemplates.CsTemplates;
 using Michaelis.QuickTemplates.Text;
 
 namespace Michaelis.QuickTemplates;
@@ -18,13 +19,6 @@ class TemplateDirectiveReader
         SourceFile = input.FullName;
     }
 
-    public TemplateDirectiveReader(string templateText, string sourceFile)
-    {
-        // TODO: remove later
-        TemplateText = templateText;
-        SourceFile = sourceFile;
-    }
-
     public List<TemplateDirective> ProcessTemplate()
     {
         var directives = new List<TemplateDirective>();
@@ -36,7 +30,7 @@ class TemplateDirectiveReader
         while (m.Success && m.Groups["META"].Success && m.Index == offset)
         {
             offset = m.Index + m.Length;
-            if (BaseTemplate.IsNewlineAtIndex(TemplateText, offset, out int len)) offset += len;
+            if (CsBaseTemplateBase.IsNewlineAtIndex(TemplateText, offset, out int len)) offset += len;
             directives.Add(ReadDirective(m, otlp));
             m = m.NextMatch();
         }
@@ -77,7 +71,7 @@ class TemplateDirectiveReader
         int textStartOffset = offset;
         while (offset < end)
         {
-            if (BaseTemplate.IsNewlineAtIndex(templateText, offset, out int len))
+            if (CsBaseTemplateBase.IsNewlineAtIndex(templateText, offset, out int len))
             {
                 if (offset - textStartOffset > 0)
                 {

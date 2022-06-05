@@ -16,7 +16,7 @@ class Program
         Console = console;
     }
 
-    public async Task<int> Run(DirectoryInfo input, DirectoryInfo output, bool recurse, bool prototype, CancellationToken cancel)
+    public async Task<int> Run(DirectoryInfo input, DirectoryInfo output, bool recurse, CancellationToken cancel)
     {
         var searchOptions = recurse ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
         var inputs = input.EnumerateFiles("*.tt", searchOptions).OrderBy(z => z.Name, NaturalSortComparer.Default).ToList();
@@ -24,43 +24,15 @@ class Program
         DiagnosticsCollection diagnostics = new();
         try
         {
-            if (prototype)
-            {
-                var writer = new FileWriter(output);
+                var writer = new FileWriter(output, diagnostics);
                 var inputReader = new FileInputReader(input, inputs);
                 TemplateGenerator generator = new(inputReader, writer, diagnostics);
                 return await generator.Run(cancel);
-            }
-
-            Generator gen = new Generator(inputs, diagnostics);
-            if (!await gen.ReadDirectives(cancel))
-            {
-                return -1;
-            }
-
-            if (!await gen.ReadMeta())
-            {
-                return -2;
-            }
-
-            if (!gen.VerifyMeta())
-            {
-                return -3;
-            }
-
-            await gen.GenerateOutput(input, output, CreateFileWriter);
         }
         finally
         {
             WriteDiagnostics(diagnostics);
         }
-        return 0;
-    }
-
-    static TextWriter CreateFileWriter(string filename)
-    {
-        var cs = new ChangeStream(File.Open(filename, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.Read), false);
-        return new StreamWriter(cs);
     }
 
     void WriteDiagnostics(DiagnosticsCollection diagnostics)
@@ -77,5 +49,4 @@ class Program
             }
         }
     }
-
 }

@@ -38,28 +38,21 @@ class EntryPoint
                 "recurse input directory directory");
         recursiveOption.AddAlias("-r");
 
-        var prototypeOption = new Option<bool>(
-                "--prototype"
-                )
-        { IsHidden = true };
-        recursiveOption.AddAlias("-r");
-
         var rootCommand = new RootCommand
         {
             inputOption,
             outputOption,
             recursiveOption,
-            prototypeOption,
         };
         rootCommand.Description = "Quick Template Generator"
             + Environment.NewLine + "Tool for generating runtime text templates"
             + Environment.NewLine + "For details visit https://github.com/nicomichaelis/QuickTemplates/";
 
-        rootCommand.SetHandler(async (DirectoryInfo input, DirectoryInfo output, bool recurse, bool prototype, InvocationContext ctx) =>
+        rootCommand.SetHandler(async (DirectoryInfo input, DirectoryInfo output, bool recurse, InvocationContext ctx) =>
             {
                 Program handler = new(ctx.Console);
-                ctx.ExitCode = await handler.Run(input, output, recurse, prototype, ctx.GetCancellationToken());
-            }, inputOption, outputOption, recursiveOption, prototypeOption);
+                ctx.ExitCode = await handler.Run(input, output, recurse, ctx.GetCancellationToken());
+            }, inputOption, outputOption, recursiveOption);
 
         return await rootCommand.InvokeAsync(args, console);
     }
