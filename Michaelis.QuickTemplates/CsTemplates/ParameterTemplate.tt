@@ -3,6 +3,5 @@
 <#@ import namespace="System" #>
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="Michaelis.QuickTemplates.Meta" #>
-<#@ parameter name="selector" type="TemplateSelector" availability="method" #>
 <#@ parameter name="parameterNode" type="ParameterNode" availability="method" #>
 <#= parameterNode.ParameterType #> <#= parameterNode.ParameterName #>

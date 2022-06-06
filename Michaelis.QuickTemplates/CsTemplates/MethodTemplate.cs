@@ -20,7 +20,7 @@ internal partial class MethodTemplate : CsBaseTemplate
         )
     {
 #line hidden
-#line 8 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\MethodTemplate.tt"
+#line 7 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\MethodTemplate.tt"
     foreach (var headNode in methodNode.Head)
     {
         ApplyNode(Context, selector, headNode);
@@ -28,32 +28,32 @@ internal partial class MethodTemplate : CsBaseTemplate
 #line hidden
         WriteLine();
         WriteFormated(
-#line 13 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\MethodTemplate.tt"
+#line 12 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\MethodTemplate.tt"
 $"{(methodNode.Modifier)}");
 #line hidden
         WriteFormated(
-#line 13 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\MethodTemplate.tt"
+#line 12 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\MethodTemplate.tt"
                           $"{(GetIf(" ", methodNode.Modifier))}");
 #line hidden
         WriteFormated(
-#line 13 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\MethodTemplate.tt"
+#line 12 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\MethodTemplate.tt"
                                                                 $"{(methodNode.Attribute)}");
 #line hidden
         WriteFormated(
-#line 13 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\MethodTemplate.tt"
+#line 12 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\MethodTemplate.tt"
                                                                                            $"{(GetIf(" ", methodNode.Attribute))}");
 #line hidden
         WriteFormated(
-#line 13 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\MethodTemplate.tt"
+#line 12 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\MethodTemplate.tt"
                                                                                                                                   $"{(methodNode.ReturnType)}");
 #line hidden
         WriteNoBreakIndent(" ");
         WriteFormated(
-#line 13 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\MethodTemplate.tt"
+#line 12 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\MethodTemplate.tt"
                                                                                                                                                                $"{(methodNode.MethodName)}");
 #line hidden
         WriteNoBreakIndent("(");
-#line 13 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\MethodTemplate.tt"
+#line 12 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\MethodTemplate.tt"
                                                                                                                                                                                                PushIndent("    ");
     foreach (var paramNode in methodNode.Parameters)
     {
@@ -61,13 +61,13 @@ $"{(methodNode.Modifier)}");
     }
 #line hidden
         WriteNoBreakIndent(")");
-#line 18 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\MethodTemplate.tt"
+#line 17 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\MethodTemplate.tt"
       PopIndent();
 #line hidden
         WriteLine();
         WriteNoBreakIndent("{");
         WriteLine();
-#line 20 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\MethodTemplate.tt"
+#line 19 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\MethodTemplate.tt"
     PushIndent("    ");
     foreach (var contentNode in methodNode.Content)
     {

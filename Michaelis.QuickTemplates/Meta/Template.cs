@@ -11,4 +11,6 @@ class Template : MetaData
     public bool OmitGeneratedAttribute { get; set; } = false;
     public string TransformMethodVisibility { get; set; } = "public";
     public string TransformMethodAttribute { get; set; } = "";
+
+    public string TemplateName => (string.IsNullOrEmpty(Name) ? System.IO.Path.GetFileNameWithoutExtension(Directive.Location.SourceName) : Name);
 }

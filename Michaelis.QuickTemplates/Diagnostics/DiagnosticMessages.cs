@@ -22,9 +22,13 @@ public static class DiagnosticMessages
     public static DiagnosticMessage MultipleTemplateDirectives(TextLocation location) => new DiagnosticMessageInstance(location, $"multiple template directives");
     public static DiagnosticMessage IncorrectParameter(TextLocation location) => new DiagnosticMessageInstance(location, $"parameter not correct");
     public static DiagnosticMessage ParameterAlreadyInUse(TextLocation location) => new DiagnosticMessageInstance(location, $"parameter already in use");
+    public static DiagnosticMessage TemplateNameNotUnique(TextLocation location) => new DiagnosticMessageInstance(location, $"template name not unique");
+    public static DiagnosticMessage BaseNotFound(TextLocation location, string inheritFrom) => new DiagnosticMessageInstance(location, $"the template '{inheritFrom}' was not found");
+    public static DiagnosticMessage InfiniteRecursion(TextLocation location) => new DiagnosticMessageInstance(location, $"the inheritance induces infinite recursion");
 
     record DiagnosticMessageInstance(TextLocation Location, string Text) : DiagnosticMessage
     {
     }
+
 }
 

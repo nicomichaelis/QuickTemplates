@@ -8,6 +8,8 @@ using Michaelis.QuickTemplates.Meta;
 
 namespace Michaelis.QuickTemplates;
 
+record TemplateDirectiveAndMetaData(InputData Input, List<TemplateDirective> Directives, List<MetaData> Meta);
+
 internal class TemplateGenerator
 {
     public TemplateGenerator(IInputReader inputs, IResultWriter writer, DiagnosticsCollection diagnostics)
@@ -21,7 +23,6 @@ internal class TemplateGenerator
     DiagnosticsCollection Diagnostics { get; }
     IResultWriter ResultWriter { get; }
 
-    record TemplateDirectiveAndMetaData(InputData Input, List<TemplateDirective> Directives, List<MetaData> Meta);
     record ModelData(Dictionary<TemplateDirectiveAndMetaData, IList<FileNode>> Model);
 
     public async Task<int> Run(CancellationToken cancel)
@@ -29,7 +30,7 @@ internal class TemplateGenerator
         var metaData = await ProcessMeta(cancel);
         if (Diagnostics.ContainsErrors) return -1;
         await VerifyMeta(metaData, cancel);
-        if (Diagnostics.ContainsErrors) return -1;        
+        if (Diagnostics.ContainsErrors) return -1;
         var modelData = await ProcessModel(metaData, cancel);
         if (Diagnostics.ContainsErrors) return -1;
         if (cancel.IsCancellationRequested) return -1;
@@ -69,21 +70,22 @@ internal class TemplateGenerator
     {
         cancel.ThrowIfCancellationRequested();
         MetaVerifier verifier = new();
-        var data = metaData.Select(z => (z.Input, z.Directives, z.Meta)).ToList();
+        var data = metaData.Select(z => new MetaVerifierDataItem(z.Input, z.Directives, z.Meta)).ToList();
         await verifier.Verify(data, Diagnostics);
     }
 
     async Task<ModelData> ProcessModel(TemplateDirectiveAndMetaData[] metaData, CancellationToken cancel)
     {
-        var data = await Task.WhenAll(metaData.Select(z => ProcessModelItem(z, cancel)));
+        Dictionary<string, TemplateDirectiveAndMetaData> inheritanceMeta = metaData.ToDictionary(item => item.Meta.OfType<Template>().First().TemplateName, item => item);
+        var data = await Task.WhenAll(metaData.Select(z => ProcessModelItem(z, inheritanceMeta, cancel)));
         return new ModelData(new(data.ToList().AsReadOnly()));
 
-        static async Task<KeyValuePair<TemplateDirectiveAndMetaData, IList<FileNode>>> ProcessModelItem(TemplateDirectiveAndMetaData data, CancellationToken cancel)
+        static async Task<KeyValuePair<TemplateDirectiveAndMetaData, IList<FileNode>>> ProcessModelItem(TemplateDirectiveAndMetaData data, Dictionary<string, TemplateDirectiveAndMetaData> inheritanceMeta, CancellationToken cancel)
         {
             await Task.Yield();
             cancel.ThrowIfCancellationRequested();
             ModelGenerator modelGenerator = new();
-            var files = modelGenerator.Generate(data.Input, data.Meta, data.Directives);
+            var files = modelGenerator.Generate(data.Input, data.Meta, data.Directives, inheritanceMeta);
             return new(data, files.ToList().AsReadOnly());
         }
     }

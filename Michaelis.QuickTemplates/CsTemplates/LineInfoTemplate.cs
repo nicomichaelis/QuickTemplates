@@ -20,17 +20,17 @@ internal partial class LineInfoTemplate : CsBaseTemplate
         )
     {
 #line hidden
-#line 8 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\LineInfoTemplate.tt"
+#line 7 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\LineInfoTemplate.tt"
    SkipIndent();
 #line hidden
         WriteNoBreakIndent("#line ");
         WriteFormated(
-#line 8 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\LineInfoTemplate.tt"
+#line 7 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\LineInfoTemplate.tt"
                          $"{(lineInfoNode.Line)}");
 #line hidden
         WriteNoBreakIndent(" \"");
         WriteFormated(
-#line 8 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\LineInfoTemplate.tt"
+#line 7 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\LineInfoTemplate.tt"
                                                    $"{(lineInfoNode.Filename)}");
 #line hidden
         WriteNoBreakIndent("\"");

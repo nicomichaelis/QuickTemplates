@@ -21,37 +21,37 @@ internal partial class ClassTemplate : CsBaseTemplate
     {
 #line hidden
         WriteLine();
-#line 10 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\ClassTemplate.tt"
+#line 9 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\ClassTemplate.tt"
     foreach (var headNode in cls.Head)
     {
         ApplyNode(Context, selector, headNode);
     }
 #line hidden
         WriteFormated(
-#line 14 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\ClassTemplate.tt"
+#line 13 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\ClassTemplate.tt"
   $"{(cls.Modifier)}");
 #line hidden
         WriteFormated(
-#line 14 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\ClassTemplate.tt"
+#line 13 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\ClassTemplate.tt"
                      $"{(GetIf(" ", cls.Modifier))}");
 #line hidden
         WriteNoBreakIndent("partial class ");
         WriteFormated(
-#line 14 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\ClassTemplate.tt"
+#line 13 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\ClassTemplate.tt"
                                                                   $"{(cls.Classname)}");
 #line hidden
         WriteFormated(
-#line 14 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\ClassTemplate.tt"
+#line 13 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\ClassTemplate.tt"
                                                                                       $"{(GetIf(" : ", cls.InheritsFrom))}");
 #line hidden
         WriteFormated(
-#line 14 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\ClassTemplate.tt"
+#line 13 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\ClassTemplate.tt"
                                                                                                                            $"{(cls.InheritsFrom)}");
 #line hidden
         WriteLine();
         WriteNoBreakIndent("{");
         WriteLine();
-#line 16 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\ClassTemplate.tt"
+#line 15 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\ClassTemplate.tt"
     PushIndent("    ");
     foreach (var contentNode in cls.Content)
     {
@@ -61,7 +61,7 @@ internal partial class ClassTemplate : CsBaseTemplate
 #line hidden
         WriteNoBreakIndent("}");
         WriteLine();
-#line 24 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\ClassTemplate.tt"
+#line 23 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\ClassTemplate.tt"
     foreach (var bottomNode in cls.Bottom)
     {
         ApplyNode(Context, selector, bottomNode);

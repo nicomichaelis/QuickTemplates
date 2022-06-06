@@ -9,23 +9,23 @@ namespace Michaelis.QuickTemplates;
 
 internal class ModelGenerator
 {
-    private enum ContentType { Context, TemplateBase, Template }
+    enum ContentType { Context, TemplateBase, Template }
 
-    public IEnumerable<FileNode> Generate(InputData input, List<MetaData> meta, List<TemplateDirective> directives)
+    public IEnumerable<FileNode> Generate(InputData input, List<MetaData> meta, List<TemplateDirective> directives, Dictionary<string, TemplateDirectiveAndMetaData> inheritanceMeta)
     {
         var template = meta.OfType<Template>().Last();
         if (string.IsNullOrEmpty(template.Inherits))
         {
-            yield return BuildFile(input, meta, directives, template, ContentType.Context);
-            yield return BuildFile(input, meta, directives, template, ContentType.TemplateBase);
+            yield return BuildFile(input, meta, directives, template, ContentType.Context, inheritanceMeta);
+            yield return BuildFile(input, meta, directives, template, ContentType.TemplateBase, inheritanceMeta);
         }
-        yield return BuildFile(input, meta, directives, template, ContentType.Template);
+        yield return BuildFile(input, meta, directives, template, ContentType.Template, inheritanceMeta);
     }
 
-    private FileNode BuildFile(InputData input, List<MetaData> meta, List<TemplateDirective> directives, Template template, ContentType content)
+    FileNode BuildFile(InputData input, List<MetaData> meta, List<TemplateDirective> directives, Template template, ContentType content, Dictionary<string, TemplateDirectiveAndMetaData> inheritanceMeta)
     {
         var fileHead = BuildFileHead(meta, template).ToList().AsReadOnly();
-        var fileContent = BuildFileContent(meta, template, directives, content).ToList().AsReadOnly();
+        var fileContent = BuildFileContent(meta, template, directives, content, inheritanceMeta).ToList().AsReadOnly();
         var fileBottom = BuildFileBottom(meta, template).ToList().AsReadOnly();
         var postfix = ContentTypeToName(content);
         FileNode node = new FileNode(
@@ -36,7 +36,7 @@ internal class ModelGenerator
         return node;
     }
 
-    private static string ContentTypeToName(ContentType content) => content switch
+    static string ContentTypeToName(ContentType content) => content switch
     {
         ContentType.Template => "",
         ContentType.Context => "Context",
@@ -81,9 +81,9 @@ internal class ModelGenerator
         }
     }
 
-    IEnumerable<ModelNode> BuildFileContent(List<MetaData> meta, Template template, List<TemplateDirective> directives, ContentType content)
+    IEnumerable<ModelNode> BuildFileContent(List<MetaData> meta, Template template, List<TemplateDirective> directives, ContentType content, Dictionary<string, TemplateDirectiveAndMetaData> inheritanceMeta)
     {
-        string origClassname = (string.IsNullOrEmpty(template.Name) ? Path.GetFileNameWithoutExtension(template.Directive.Location.SourceName) : template.Name);
+        string origClassname = template.TemplateName;
 
         var classHead = new List<ModelNode>();
         if (!template.OmitGeneratedAttribute) classHead.Add(new FixedLineNode($"[global::System.CodeDom.Compiler.GeneratedCodeAttribute(\"{ThisAssembly.AssemblyTitle}\", \"{ThisAssembly.AssemblyVersion}\")]", true));
@@ -92,7 +92,7 @@ internal class ModelGenerator
         {
             ContentType.TemplateBase => new() { new BaseClassCodeNode(origClassname) },
             ContentType.Context => new() { new ContextClassCodeNode() },
-            ContentType.Template => BuildTemplateClassContent(meta, template, directives).ToList(),
+            ContentType.Template => BuildTemplateClassContent(meta, template, directives, inheritanceMeta).ToList(),
             _ => throw new NotImplementedException()
         };
 
@@ -115,7 +115,7 @@ internal class ModelGenerator
         }
     }
 
-    IEnumerable<ModelNode> BuildTemplateClassContent(List<MetaData> meta, Template template, List<TemplateDirective> directives)
+    IEnumerable<ModelNode> BuildTemplateClassContent(List<MetaData> meta, Template template, List<TemplateDirective> directives, Dictionary<string, TemplateDirectiveAndMetaData> inheritanceMeta)
     {
         var memberParameters = meta.OfType<Parameter>().Where(z => z.Availability == ParameterAvailability.Class).ToList();
         foreach (var z in memberParameters)
@@ -139,11 +139,13 @@ internal class ModelGenerator
             hasLineInfo = false;
         }
 
+        var daisychainedMeta = DaisyChainMeta(template, inheritanceMeta);
+
         if (directives.Any(z => (z.Mode != DirectiveMode.Meta) && (z.Mode != DirectiveMode.ClassCode)))
         {
             List<ModelNode> methodContent = BuildTemplateMethodContent(meta, template, directives);
             List<ModelNode> methodParams =
-                meta.OfType<Parameter>()
+                daisychainedMeta.OfType<Parameter>()
                 .Where(z => z.Availability == ParameterAvailability.Method)
                 .Select(parameter => new ParameterNode(parameter.Type, parameter.Name))
                 .OfType<ModelNode>().Intersperse((pos) => (true,
@@ -165,7 +167,18 @@ internal class ModelGenerator
         }
     }
 
-    private List<ModelNode> BuildTemplateMethodContent(List<MetaData> meta, Template template, List<TemplateDirective> directives)
+    private IEnumerable<MetaData> DaisyChainMeta(Template template, Dictionary<string, TemplateDirectiveAndMetaData> inheritanceMeta)
+    {
+        IEnumerable<MetaData> par = Enumerable.Empty<MetaData>();
+        if (inheritanceMeta.TryGetValue(template.Inherits, out var parData))
+        {
+            par = DaisyChainMeta(parData.Meta.OfType<Template>().First(), inheritanceMeta);
+        }
+
+        return par.Concat(inheritanceMeta[template.TemplateName].Meta);
+    }
+
+    List<ModelNode> BuildTemplateMethodContent(List<MetaData> meta, Template template, List<TemplateDirective> directives)
     {
         List<ModelNode> result = new();
         if (template.Linepragmas)

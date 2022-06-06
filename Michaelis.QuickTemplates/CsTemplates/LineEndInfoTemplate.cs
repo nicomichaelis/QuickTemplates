@@ -20,12 +20,12 @@ internal partial class LineEndInfoTemplate : CsBaseTemplate
         )
     {
 #line hidden
-#line 8 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\LineEndInfoTemplate.tt"
+#line 7 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\LineEndInfoTemplate.tt"
    SkipIndent();
 #line hidden
         WriteNoBreakIndent("#line ");
         WriteFormated(
-#line 8 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\LineEndInfoTemplate.tt"
+#line 7 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\LineEndInfoTemplate.tt"
                          $"{(lineEndInfoNode.Mode.ToString().ToLower())}");
 #line hidden
         WriteLine();

@@ -22,7 +22,7 @@ internal partial class UsingTemplate : CsBaseTemplate
 #line hidden
         WriteNoBreakIndent("using ");
         WriteFormated(
-#line 8 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\UsingTemplate.tt"
+#line 7 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\UsingTemplate.tt"
       $"{(use.Namespace)}");
 #line hidden
         WriteNoBreakIndent(";");

@@ -1,1 +1,2 @@
 <#@ template Namespace="Michaelis.QuickTemplates.CsTemplates" Visibility="internal" #>
+<#@ parameter name="selector" type="TemplateSelector" availability="method" #>

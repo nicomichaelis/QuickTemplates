@@ -20,7 +20,7 @@ internal partial class FixedLineTemplate : CsBaseTemplate
         )
     {
 #line hidden
-#line 9 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\FixedLineTemplate.tt"
+#line 8 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\FixedLineTemplate.tt"
     if (!fixedLineNode.Indented) SkipIndent();
     WriteNoBreakIndent(fixedLineNode.Content);
 #line hidden

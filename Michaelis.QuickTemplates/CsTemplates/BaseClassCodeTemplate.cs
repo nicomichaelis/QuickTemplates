@@ -22,7 +22,7 @@ internal partial class BaseClassCodeTemplate : CsBaseTemplate
 #line hidden
         WriteNoBreakIndent("public ");
         WriteFormated(
-#line 8 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\BaseClassCodeTemplate.tt"
+#line 7 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\BaseClassCodeTemplate.tt"
        $"{(bccn.Classname)}");
 #line hidden
         WriteNoBreakIndent("Context Context");
@@ -39,7 +39,7 @@ internal partial class BaseClassCodeTemplate : CsBaseTemplate
         WriteLine();
         WriteNoBreakIndent("            _priv_Context = new ");
         WriteFormated(
-#line 14 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\BaseClassCodeTemplate.tt"
+#line 13 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\BaseClassCodeTemplate.tt"
                                 $"{(bccn.Classname)}");
 #line hidden
         WriteNoBreakIndent("Context();");
@@ -63,7 +63,7 @@ internal partial class BaseClassCodeTemplate : CsBaseTemplate
         WriteLine();
         WriteNoBreakIndent("private ");
         WriteFormated(
-#line 24 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\BaseClassCodeTemplate.tt"
+#line 23 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\BaseClassCodeTemplate.tt"
         $"{(bccn.Classname)}");
 #line hidden
         WriteNoBreakIndent("Context _priv_Context;");

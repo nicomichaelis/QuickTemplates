@@ -20,7 +20,7 @@ internal partial class CsFileTemplate10 : CsBaseTemplate
         )
     {
 #line hidden
-#line 8 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\CsFileTemplate10.tt"
+#line 7 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\CsFileTemplate10.tt"
     foreach (var headNode in file.Head)
     {
         ApplyNode(Context, selector, headNode);
@@ -29,12 +29,12 @@ internal partial class CsFileTemplate10 : CsBaseTemplate
         WriteLine();
         WriteNoBreakIndent("namespace ");
         WriteFormated(
-#line 13 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\CsFileTemplate10.tt"
+#line 12 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\CsFileTemplate10.tt"
           $"{(file.Namespace)}");
 #line hidden
         WriteNoBreakIndent(";");
         WriteLine();
-#line 15 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\CsFileTemplate10.tt"
+#line 14 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\CsFileTemplate10.tt"
     foreach (var contentNode in file.Content)
     {
         ApplyNode(Context, selector, contentNode);

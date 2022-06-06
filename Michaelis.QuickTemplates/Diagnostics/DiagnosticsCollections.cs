@@ -26,7 +26,7 @@ public class DiagnosticsCollection
     {
         get
         {
-            lock (_locker) return _diagnostics.ToList();
+            lock (_locker) return _diagnostics.OrderBy(z => z.Message.Location.SourceName).ThenBy(z => z.Message.Location.Line).ThenBy(z => z.Message.Location.Col).Distinct().ToList();
         }
     }
 

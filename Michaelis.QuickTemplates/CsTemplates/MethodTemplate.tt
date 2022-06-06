@@ -3,7 +3,6 @@
 <#@ import namespace="System" #>
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="Michaelis.QuickTemplates.Meta" #>
-<#@ parameter name="selector" type="TemplateSelector" availability="method" #>
 <#@ parameter name="methodNode" type="MethodNode" availability="method" #><#
     foreach (var headNode in methodNode.Head)
     {

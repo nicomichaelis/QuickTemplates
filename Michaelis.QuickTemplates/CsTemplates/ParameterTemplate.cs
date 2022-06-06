@@ -21,12 +21,12 @@ internal partial class ParameterTemplate : CsBaseTemplate
     {
 #line hidden
         WriteFormated(
-#line 8 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\ParameterTemplate.tt"
+#line 7 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\ParameterTemplate.tt"
 $"{(parameterNode.ParameterType)}");
 #line hidden
         WriteNoBreakIndent(" ");
         WriteFormated(
-#line 8 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\ParameterTemplate.tt"
+#line 7 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\ParameterTemplate.tt"
                                    $"{(parameterNode.ParameterName)}");
 #line hidden
 #line default
