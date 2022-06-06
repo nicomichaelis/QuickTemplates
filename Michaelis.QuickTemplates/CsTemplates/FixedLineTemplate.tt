@@ -3,8 +3,8 @@
 <#@ import namespace="System" #>
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="Michaelis.QuickTemplates.Meta" #>
-<#@ parameter name="selector" type="TemplateSelector" availability="method" required="true" #>
-<#@ parameter name="fixedLineNode" type="FixedLineNode" availability="method" required="true" #>
+<#@ parameter name="selector" type="TemplateSelector" availability="method" #>
+<#@ parameter name="fixedLineNode" type="FixedLineNode" availability="method" #>
 <#
     if (!fixedLineNode.Indented) SkipIndent();
     WriteNoBreakIndent(fixedLineNode.Content);

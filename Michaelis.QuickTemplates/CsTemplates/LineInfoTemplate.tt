@@ -3,6 +3,6 @@
 <#@ import namespace="System" #>
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="Michaelis.QuickTemplates.Meta" #>
-<#@ parameter name="selector" type="TemplateSelector" availability="method" required="true" #>
-<#@ parameter name="lineInfoNode" type="LineInfoNode" availability="method" required="true" #>
+<#@ parameter name="selector" type="TemplateSelector" availability="method" #>
+<#@ parameter name="lineInfoNode" type="LineInfoNode" availability="method" #>
 <# SkipIndent(); #>#line <#= lineInfoNode.Line #> "<#= lineInfoNode.Filename #>"

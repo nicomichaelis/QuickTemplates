@@ -3,8 +3,8 @@
 <#@ import namespace="System" #>
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="Michaelis.QuickTemplates.Meta" #>
-<#@ parameter name="selector" type="TemplateSelector" availability="method" required="true" #>
-<#@ parameter name="cccn" type="ContextClassCodeNode" availability="method" required="true" #>
+<#@ parameter name="selector" type="TemplateSelector" availability="method" #>
+<#@ parameter name="cccn" type="ContextClassCodeNode" availability="method" #>
 public global::System.IO.TextWriter Writer { get; init; }
 public bool EoL { get; set; } = true;
 public global::System.Collections.Generic.Stack<string> Indents { get; } = new global::System.Collections.Generic.Stack<string>();

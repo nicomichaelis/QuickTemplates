@@ -9,6 +9,4 @@ class Parameter : MetaData
     public string Modifier { get; set; } = "public";
     public string GetAccessor { get; set; } = "get;";
     public string SetAccessor { get; set; } = "set;";
-    [System.Obsolete]
-    public bool Required { get; set; } = false;
 }
