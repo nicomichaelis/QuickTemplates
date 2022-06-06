@@ -10,7 +10,7 @@
         ApplyNode(Context, selector, headNode);
     }
 #>
-<#= methodNode.Modifier #><#= GetIf(" ", methodNode.Modifier) #><#= methodNode.ReturnType #> <#= methodNode.MethodName #>(<# PushIndent("    ");
+<#= methodNode.Modifier #><#= GetIf(" ", methodNode.Modifier) #><#= methodNode.Attribute #><#= GetIf(" ", methodNode.Attribute) #><#= methodNode.ReturnType #> <#= methodNode.MethodName #>(<# PushIndent("    ");
     foreach (var paramNode in methodNode.Parameters)
     {
        ApplyNode(Context, selector, paramNode);

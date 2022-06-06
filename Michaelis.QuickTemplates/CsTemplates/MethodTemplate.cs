@@ -37,16 +37,24 @@ $"{(methodNode.Modifier)}");
 #line hidden
         WriteFormated(
 #line 13 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\MethodTemplate.tt"
-                                                                $"{(methodNode.ReturnType)}");
+                                                                $"{(methodNode.Attribute)}");
+#line hidden
+        WriteFormated(
+#line 13 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\MethodTemplate.tt"
+                                                                                           $"{(GetIf(" ", methodNode.Attribute))}");
+#line hidden
+        WriteFormated(
+#line 13 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\MethodTemplate.tt"
+                                                                                                                                  $"{(methodNode.ReturnType)}");
 #line hidden
         WriteNoBreakIndent(" ");
         WriteFormated(
 #line 13 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\MethodTemplate.tt"
-                                                                                             $"{(methodNode.MethodName)}");
+                                                                                                                                                               $"{(methodNode.MethodName)}");
 #line hidden
         WriteNoBreakIndent("(");
 #line 13 "D:\ws\QuickTemplates\Michaelis.QuickTemplates\CsTemplates\MethodTemplate.tt"
-                                                                                                                             PushIndent("    ");
+                                                                                                                                                                                               PushIndent("    ");
     foreach (var paramNode in methodNode.Parameters)
     {
        ApplyNode(Context, selector, paramNode);

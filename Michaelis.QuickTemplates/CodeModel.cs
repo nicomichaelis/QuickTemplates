@@ -26,6 +26,6 @@ record ContextClassCodeNode() : ModelNode;
 
 record BaseClassCodeNode(string Classname) : ModelNode;
 
-record MethodNode(string Modifier, string ReturnType, string MethodName, IList<ModelNode> Parameters, IList<ModelNode> Head, IList<ModelNode> Content) : ModelNode;
+record MethodNode(string Modifier, string Attribute, string ReturnType, string MethodName, IList<ModelNode> Parameters, IList<ModelNode> Head, IList<ModelNode> Content) : ModelNode;
 
 record ParameterNode(string ParameterType, string ParameterName) : ModelNode;

@@ -1,3 +1,5 @@
+using System.Linq;
+
 namespace Michaelis.QuickTemplates.CsTemplates;
 
 abstract partial class CsBaseTemplate
@@ -13,6 +15,11 @@ abstract partial class CsBaseTemplate
         return (a && b) ? joint : string.Empty;
     }
 
+    protected string GetIf(string joint, params bool[] a)
+    {
+        return a.Any(z => z) ? joint : string.Empty;
+    }
+
     protected string GetIf(string joint, bool a)
     {
         return a ? joint : string.Empty;
@@ -21,6 +28,11 @@ abstract partial class CsBaseTemplate
     protected string GetIf(string joint, string a, string b)
     {
         return (!(string.IsNullOrEmpty(a) || string.IsNullOrEmpty(b))) ? joint : string.Empty;
+    }
+
+    protected string GetIf(string joint, params string[] a)
+    {
+        return !(a.All(string.IsNullOrEmpty)) ? joint : string.Empty;
     }
 
     protected string GetIf(string joint, string a)

@@ -83,11 +83,11 @@ internal class ModelGenerator
 
     IEnumerable<ModelNode> BuildFileContent(List<MetaData> meta, Template template, List<TemplateDirective> directives, ContentType content)
     {
-        string origClassname = (template.Name ?? Path.GetFileNameWithoutExtension(template.Directive.Location.SourceName));
+        string origClassname = (string.IsNullOrEmpty(template.Name) ? Path.GetFileNameWithoutExtension(template.Directive.Location.SourceName) : template.Name);
 
-        var classHead = new List<ModelNode>() {
-                new FixedLineNode($"[global::System.CodeDom.Compiler.GeneratedCodeAttribute(\"{ThisAssembly.AssemblyTitle}\", \"{ThisAssembly.AssemblyVersion}\")]", true)
-            }.AsReadOnly();
+        var classHead = new List<ModelNode>();
+        if (!template.OmitGeneratedAttribute) classHead.Add(new FixedLineNode($"[global::System.CodeDom.Compiler.GeneratedCodeAttribute(\"{ThisAssembly.AssemblyTitle}\", \"{ThisAssembly.AssemblyVersion}\")]", true));
+
         List<ModelNode> classContent = content switch
         {
             ContentType.TemplateBase => new() { new BaseClassCodeNode(origClassname) },
@@ -98,7 +98,7 @@ internal class ModelGenerator
 
         var classBottom = new List<ModelNode>().AsReadOnly();
 
-        var cls = new ClassNode(origClassname + ContentTypeToName(content), template.Visibility, InheritsFrom(origClassname, content, template), classHead, classContent.AsReadOnly(), classBottom);
+        var cls = new ClassNode(origClassname + ContentTypeToName(content), template.Visibility, InheritsFrom(origClassname, content, template), classHead.AsReadOnly(), classContent.AsReadOnly(), classBottom);
         yield return cls;
     }
 
@@ -159,7 +159,7 @@ internal class ModelGenerator
                 .Select(line => new FixedLineNode(line.Text, line.Indented))
                 .OfType<ModelNode>().ToList();
 
-            var method = new MethodNode(template.TransformMethodVisibility, "void", template.TransformMethod, methodParams.AsReadOnly(),
+            var method = new MethodNode(template.TransformMethodVisibility, template.TransformMethodAttribute, "void", template.TransformMethod, methodParams.AsReadOnly(),
                 Enumerable.Empty<ModelNode>().ToList().AsReadOnly(), methodContent.AsReadOnly());
             yield return method;
         }
