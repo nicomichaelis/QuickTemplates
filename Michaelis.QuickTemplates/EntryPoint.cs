@@ -48,11 +48,16 @@ class EntryPoint
             + Environment.NewLine + "Tool for generating runtime text templates"
             + Environment.NewLine + "For details visit https://github.com/nicomichaelis/QuickTemplates/";
 
-        rootCommand.SetHandler(async (DirectoryInfo input, DirectoryInfo output, bool recurse, InvocationContext ctx) =>
+        rootCommand.SetHandler(async (InvocationContext ctx) =>
             {
                 Program handler = new(ctx.Console);
-                ctx.ExitCode = await handler.Run(input, output, recurse, ctx.GetCancellationToken());
-            }, inputOption, outputOption, recursiveOption);
+                ctx.ExitCode = await handler.Run(
+                    ctx.ParseResult.GetValueForOption(inputOption),
+                    ctx.ParseResult.GetValueForOption(outputOption),
+                    ctx.ParseResult.GetValueForOption(recursiveOption),
+                    ctx.GetCancellationToken()
+                    );
+            });
 
         return await rootCommand.InvokeAsync(args, console);
     }
