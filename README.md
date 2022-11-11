@@ -16,7 +16,7 @@ they provide values and other variable content of the output string.
 The quick template tool is in many ways similar to the RTTs produced by T4. Its
 main enhancements are:
 
-* indentatation.
+* indentation.
 * transform method parameters.
 * recursive transform.
 * possibility of overriding format providers.
